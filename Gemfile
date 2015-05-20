@@ -102,6 +102,9 @@ group :development do
   gem 'annotate'
   gem 'pry-rails'
 
+  gem 'pry'
+  gem 'pry-byebug', '2.0.0'
+
   # Use Capistrano for deployment
   gem 'capistrano'
   gem 'capistrano-rails'
