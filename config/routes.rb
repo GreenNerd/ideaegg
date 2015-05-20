@@ -19,7 +19,7 @@ Rails.application.routes.draw do
     get     "/sign_in"    => "devise/sessions#new"
     delete  "/sign_out"   => "devise/sessions#destroy"
     get     "/register" => "devise/registrations#new"
-    post    '/api/v2/reset_password' => 'ideaegg_api/passwords#create'
+    post    '/api/v2/reset_password' => 'ideaegg_api/passwords#create', defaults: { format: :json }
   end
 
   concern :commentable do
@@ -35,7 +35,7 @@ Rails.application.routes.draw do
 
   get '/uploads/uptoken' => 'uploads#uptoken'
 
-  namespace :ideaegg_api, path: :api, as: :api do
+  namespace :ideaegg_api, path: :api, as: :api, defaults: { format: :json } do
     scope :v2 do
       post 'sign_up' => 'users#create'
       post 'sign_in' => 'sessions#create'
