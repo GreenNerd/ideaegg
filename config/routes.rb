@@ -88,4 +88,9 @@ Rails.application.routes.draw do
   #     # (app/controllers/admin/products_controller.rb)
   #     resources :products
   #   end
+  namespace :ideaegg_api, path: :api, as: :api do
+    scope :v2 do
+      resources :users, only: [:create]
+    end
+  end
 end
