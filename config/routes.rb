@@ -14,11 +14,12 @@ Rails.application.routes.draw do
     root to: "home#index", as: :unauthenticated_root
   end
 
-  devise_for :users, :path => ''
+  devise_for :users, controllers: { passwords: "ideaegg_api/passwords" }
   devise_scope :user do
     get     "/sign_in"    => "devise/sessions#new"
     delete  "/sign_out"   => "devise/sessions#destroy"
     get     "/register" => "devise/registrations#new"
+    post    '/api/v2/reset_password' => 'ideaegg_api/passwords#create'
   end
 
   concern :commentable do
