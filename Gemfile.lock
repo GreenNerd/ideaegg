@@ -115,6 +115,7 @@ GEM
     ffi (1.9.6)
     font-awesome-rails (4.2.0.0)
       railties (>= 3.2, < 5.0)
+    forgery (0.6.0)
     formatador (0.2.5)
     grape (0.9.0)
       activesupport
@@ -371,6 +372,7 @@ DEPENDENCIES
   factory_girl_rails (>= 4.5.0)
   ffaker (>= 1.25.0)
   font-awesome-rails (~> 4.2.0)
+  forgery
   grape (~> 0.9.0)
   grape-entity (~> 0.4.4)
   grape-kaminari

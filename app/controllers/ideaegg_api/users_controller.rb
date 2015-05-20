@@ -9,6 +9,12 @@ class IdeaeggApi::UsersController < IdeaeggApi::ApplicationController
     end
   end
 
+  def auto_create
+    @user = User.generate_one_user
+    @user.save
+    render :create, layout: false
+  end
+
   private
 
   def user_params

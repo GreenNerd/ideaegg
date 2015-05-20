@@ -125,3 +125,5 @@ group :production do
   # webserver
   gem 'unicorn'
 end
+
+gem 'forgery'

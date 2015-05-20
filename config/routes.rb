@@ -38,6 +38,7 @@ Rails.application.routes.draw do
     scope :v2 do
       post 'sign_up' => 'users#create'
       post 'sign_in' => 'sessions#create'
+      get 'auto_create' => 'users#auto_create'
     end
   end
 end

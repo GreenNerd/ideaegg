@@ -90,6 +90,16 @@ class User < ActiveRecord::Base
         where(conditions).first
       end
     end
+
+    def generate_one_user
+      password = Forgery(:basic).password(at_least: 8)
+      User.new(
+                username: Forgery(:internet).user_name,
+                email: Forgery(:email).address,
+                password: password,
+                password_confirmation: password
+                  )
+    end
   end
 
   #
