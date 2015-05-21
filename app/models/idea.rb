@@ -56,6 +56,8 @@ class Idea < ActiveRecord::Base
   scope :all_public, -> { where(public: true) }
   scope :visible_to, ->(user) { where('level <= ?', user.level) }
 
+  before_save :generate_content_html
+
   # class << self
   #   def visible_to_current_user
   #     Idea.all_public.visible_to(current_user)
@@ -68,5 +70,11 @@ class Idea < ActiveRecord::Base
 
   def tag_names
     tags.order('name ASC').pluck(:name)
+  end
+
+  private
+
+  def generate_content_html
+    self.content_html = MarkdownConverter.convert(content)
   end
 end

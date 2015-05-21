@@ -19,7 +19,6 @@ Rails.application.routes.draw do
     get     "/sign_in"    => "devise/sessions#new"
     delete  "/sign_out"   => "devise/sessions#destroy"
     get     "/register" => "devise/registrations#new"
-    post    '/api/v2/reset_password' => 'ideaegg_api/passwords#create', defaults: { format: :json }
   end
 
   concern :commentable do
@@ -39,8 +38,12 @@ Rails.application.routes.draw do
     scope :v2 do
       post 'sign_up' => 'users#create'
       post 'sign_in' => 'sessions#create'
-      get 'auto_create' => 'users#auto_create'
+      get  'auto_create' => 'users#auto_create'
       resources :ideas, only: [:create, :show]
+
+      devise_scope :user do
+        post 'reset_password' => 'passwords#create'
+      end
     end
   end
 end

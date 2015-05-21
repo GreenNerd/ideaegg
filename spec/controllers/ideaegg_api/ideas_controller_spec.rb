@@ -27,7 +27,7 @@ RSpec.describe IdeaeggApi::IdeasController, :type => :controller do
 
       it 'returns a idea json' do
         post :create, valid_attrs.merge(token_and_format)
-        expect(json_response['content_html']).to eq MarkdownConverter.convert(valid_attrs[:content])
+        expect(json_response['content_html']).to eq "<p><strong>World</strong></p>\n"
       end
     end
 

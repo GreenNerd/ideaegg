@@ -4,7 +4,6 @@ class IdeaeggApi::IdeasController < IdeaeggApi::ApplicationController
 
   def create
     @idea = @user.ideas.build(idea_params)
-    @idea.content_html = ::MarkdownConverter.convert(params[:content])
     if @idea.save
       render layout: false, status: 201
     else
