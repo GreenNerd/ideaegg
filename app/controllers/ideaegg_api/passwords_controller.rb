@@ -16,7 +16,7 @@ class IdeaeggApi::PasswordsController < Devise::PasswordsController
         format.json { render json: { success: true }, layout: false }
       else
         format.html { respond_with(resource) }
-        format.json { render json: { errors: resource.errors.full_messages }, status: 422 }
+        format.json { render json: { errors: error_message(resource) }, status: 422 }
       end
     end
   end
