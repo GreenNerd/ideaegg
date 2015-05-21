@@ -40,7 +40,7 @@ Rails.application.routes.draw do
       post 'sign_up' => 'users#create'
       post 'sign_in' => 'sessions#create'
       get 'auto_create' => 'users#auto_create'
-      resources :ideas, only: [:create]
+      resources :ideas, only: [:create, :show]
     end
   end
 end

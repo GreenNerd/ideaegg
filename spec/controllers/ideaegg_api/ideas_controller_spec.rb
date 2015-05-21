@@ -5,11 +5,11 @@ RSpec.describe IdeaeggApi::IdeasController, :type => :controller do
   render_views
 
   let!(:user) { create :user }
+  let(:token_and_format) { { private_token: user.private_token, format: :json } }
 
   describe '#create' do
     let(:valid_attrs) { attributes_for :idea }
     let(:invalid_attrs) { attributes_for :idea, cover: nil }
-    let(:token_and_format) { { private_token: user.private_token, format: :json } }
 
     context 'succeeding' do
       it 'creates a idea with token in params' do
@@ -49,7 +49,20 @@ RSpec.describe IdeaeggApi::IdeasController, :type => :controller do
         expect(response.status).to eq 401
       end
     end
+  end
 
+  describe 'GET show' do
+    let!(:idea) { create :idea }
+
+    it 'returns the idea json' do
+      get :show, { id: idea }.merge(token_and_format)
+      expect(json_response['id']).to eq idea.id
+    end
+
+    it 'returns 404 code if idea is not found' do
+      get :show, { id: -1 }.merge(token_and_format)
+      expect(response.status).to eq 404
+    end
   end
 
 end
