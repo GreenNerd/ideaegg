@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150407151009) do
+ActiveRecord::Schema.define(version: 20150521001155) do
 
   create_table "comments", force: true do |t|
     t.integer  "commentable_id"
@@ -56,6 +56,9 @@ ActiveRecord::Schema.define(version: 20150407151009) do
     t.integer  "cached_votes_up", default: 0
     t.integer  "stars_count",     default: 0
     t.integer  "level",           default: 0
+    t.string   "cover"
+    t.text     "summary"
+    t.text     "content_html"
   end
 
   add_index "ideas", ["cached_votes_up"], name: "index_ideas_on_cached_votes_up"
