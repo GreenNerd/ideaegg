@@ -83,6 +83,8 @@ gem 'redcarpet', '~> 3.2.2'
 # tag
 gem 'acts-as-taggable-on', '~> 3.4'
 
+gem 'rails-i18n'
+
 group :development, :test do
   gem 'rspec-rails', '>= 3.1.0'
   gem 'factory_girl_rails', '>= 4.5.0'

@@ -12,6 +12,10 @@ module Ideaegg
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.
 
+    config.i18n.default_locale = 'zh-CN'
+    config.i18n.available_locales = ['zh-CN']
+    I18n.config.enforce_available_locales = false
+
     config.paths.add File.join('app', 'api'), glob: File.join('**', '*.rb')
     config.autoload_paths += Dir[Rails.root.join('app', 'api', '*')]
 
