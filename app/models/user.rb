@@ -54,6 +54,7 @@ class User < ActiveRecord::Base
   has_many :ideas, dependent: :destroy
   has_many :stars
   has_many :starred_ideas, through: :stars, source: :starrable, source_type: 'Idea'
+  has_many :authentications, dependent: :destroy
 
   # validations
   validates :username,
@@ -91,14 +92,20 @@ class User < ActiveRecord::Base
       end
     end
 
-    def generate_one_user
+    def generate_one_user username = nil, email = nil
       password = Forgery(:basic).password(at_least: 8)
       User.new(
-                username: Forgery(:internet).user_name,
-                email: Forgery(:email).address,
+                username: username || Forgery(:internet).user_name,
+                email: email || Forgery(:email).address,
                 password: password,
                 password_confirmation: password
                   )
+    end
+
+    def generate_user_with_authentication params
+      user = User.generate_one_user params[:username], params[:email]
+      user.authentications.build(uid: params[:uid], provider: params[:provider])
+      user
     end
   end
 

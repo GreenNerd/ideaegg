@@ -4,6 +4,10 @@ RSpec.describe IdeaeggApi::SessionsController, :type => :controller do
   include ApiSpecHelpers
   render_views
 
+  before :each do
+    request.env["HTTP_ACCEPT"] = 'application/json'
+  end
+
   describe '#create' do
     let(:password) { 'test-password' }
     let!(:user) { create :user, password: password }
@@ -30,6 +34,42 @@ RSpec.describe IdeaeggApi::SessionsController, :type => :controller do
       post :create , invalid_login_and_password.merge(format: :json)
       expect(response.status).to eq 401
       expect(json_response['errors']).not_to be_nil
+    end
+  end
+
+  describe 'POST create_by_uid' do
+    let(:valid_attrs) { { uid: FFaker::Guid.guid, provider: 'wechat' } }
+    let(:valid_attrs_with_email) { { uid: FFaker::Guid.guid, provider: 'wechat', email: 'test_email@qq.com' } }
+    let(:invalid_attrs) { { uid: FFaker::Guid.guid, provider: 'not_exist' } }
+
+    context 'succeeding' do
+      it 'returns 200 code' do
+        post :create_by_uid, valid_attrs
+        expect(response.status).to eq 200
+      end
+
+      it 'creates a new user' do
+        expect {
+          post :create_by_uid, valid_attrs
+        }.to change { User.count }.by 1
+      end
+
+      it 'returns a user json' do
+        post :create_by_uid, valid_attrs
+        expect(json_response['private_token']).not_to be_nil
+      end
+
+      it 'uses email in params if params include a email' do
+        post :create_by_uid, valid_attrs_with_email
+        expect(json_response['email']).to eq 'test_email@qq.com'
+      end
+    end
+
+    context 'failing' do
+      it 'returns 422 code' do
+        post :create_by_uid, invalid_attrs
+        expect(response.status).to eq 422
+      end
     end
   end
 end
