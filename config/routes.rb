@@ -41,7 +41,7 @@ Rails.application.routes.draw do
       get  'auto_create' => 'users#auto_create'
       resources :ideas, only: [:create, :show]
       post 'markdown/preview' => 'markdown#preview'
-      post 'sign_up_with/:provider' => 'sessions#create_by_uid'
+      post 'sign_in_with/:provider' => 'sessions#create_by_uid'
 
       devise_scope :user do
         post 'reset_password' => 'passwords#create'

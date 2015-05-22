@@ -12,12 +12,18 @@ class IdeaeggApi::SessionsController < IdeaeggApi::ApplicationController
   end
 
   def create_by_uid
-    @user = User.generate_user_with_authentication params
-    if @user.save
+    authentication = Authentication.find_by(provider: params[:provider], uid: params[:uid])
+    if authentication
+      @user = authentication.user
       render :create, layout: false
     else
-      errors = @user.errors.any? ? error_messages(@user) : error_messages(@user.authentications.first)
-      render json: { errors: errors }, status: 422
+      @user = User.generate_user_with_authentication params
+      if @user.save
+        render :create, layout: false
+      else
+        errors = @user.authentications.first.errors.any? ? error_messages(@user.authentications.first) : error_messages(@user)
+        render json: { errors: errors }, status: 422
+      end
     end
   end
 

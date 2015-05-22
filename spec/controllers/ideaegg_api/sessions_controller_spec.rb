@@ -63,6 +63,13 @@ RSpec.describe IdeaeggApi::SessionsController, :type => :controller do
         post :create_by_uid, valid_attrs_with_email
         expect(json_response['email']).to eq 'test_email@qq.com'
       end
+
+      it 'directly return the user if authentication exists' do
+        user = create :user
+        user.authentications.create(uid: 'test_uid', provider: 'wechat')
+        post :create_by_uid, { uid: 'test_uid', provider: 'wechat' }
+        expect(json_response['private_token']).to eq user.private_token
+      end
     end
 
     context 'failing' do
