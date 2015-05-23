@@ -17,7 +17,7 @@ class IdeaeggApi::SessionsController < IdeaeggApi::ApplicationController
       @user = authentication.user
       render :create, layout: false
     else
-      @user = User.generate_user_with_authentication params
+      @user = User.build_with_authentication params
       if @user.save
         render :create, layout: false
       else

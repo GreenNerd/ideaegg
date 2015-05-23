@@ -92,7 +92,7 @@ class User < ActiveRecord::Base
       end
     end
 
-    def generate_one_user username = nil, email = nil
+    def build_with_attributes username = nil, email = nil
       random_username = generate_one_username
       password = Forgery(:basic).password(at_least: 8)
       User.new(
@@ -103,9 +103,9 @@ class User < ActiveRecord::Base
                   )
     end
 
-    def generate_user_with_authentication params
-      user = User.generate_one_user params[:username], params[:email]
-      user.authentications.build(uid: params[:uid], provider: params[:provider])
+    def build_with_authentication options
+      user = User.build_with_attributes options[:username], options[:email]
+      user.authentications.build(uid: options[:uid], provider: options[:provider])
       user
     end
 

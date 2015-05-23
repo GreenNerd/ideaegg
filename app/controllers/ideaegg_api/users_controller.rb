@@ -10,7 +10,7 @@ class IdeaeggApi::UsersController < IdeaeggApi::ApplicationController
   end
 
   def sign_up_temporarily
-    @user = User.generate_one_user
+    @user = User.build_with_attributes
     @user.save
     render :create, layout: false
   end
