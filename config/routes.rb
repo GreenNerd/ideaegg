@@ -38,10 +38,12 @@ Rails.application.routes.draw do
     scope :v2 do
       post 'sign_up' => 'users#create'
       post 'sign_in' => 'sessions#create'
-      get  'auto_create' => 'users#auto_create'
-      resources :ideas, only: [:create, :show]
-      post 'markdown/preview' => 'markdown#preview'
+      get  'sign_up_temporarily' => 'users#sign_up_temporarily'
       post 'sign_in_with/:provider' => 'sessions#create_by_uid'
+
+      post 'markdown/preview' => 'markdown#preview'
+
+      resources :ideas, only: [:create, :show]
 
       devise_scope :user do
         post 'reset_password' => 'passwords#create'
