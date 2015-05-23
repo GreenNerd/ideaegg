@@ -1,5 +1,5 @@
 class IdeaeggApi::SessionsController < IdeaeggApi::ApplicationController
-  before_action :check_provider, only: [:create_by_uid]
+  before_action :check_provider, only: [:create_by_provider]
 
   def create
     @user = User.find_for_database_authentication(login: params[:login])
@@ -11,7 +11,7 @@ class IdeaeggApi::SessionsController < IdeaeggApi::ApplicationController
     end
   end
 
-  def create_by_uid
+  def create_by_provider
     authentication = Authentication.find_by(provider: params[:provider], uid: params[:uid])
     if authentication
       @user = authentication.user

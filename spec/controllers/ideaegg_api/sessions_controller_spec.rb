@@ -37,44 +37,44 @@ RSpec.describe IdeaeggApi::SessionsController, :type => :controller do
     end
   end
 
-  describe 'POST create_by_uid' do
+  describe 'POST create_by_provider' do
     let(:valid_attrs) { { uid: FFaker::Guid.guid, provider: 'wechat' } }
     let(:valid_attrs_with_email) { { uid: FFaker::Guid.guid, provider: 'wechat', email: 'test_email@qq.com' } }
     let(:invalid_attrs) { { uid: FFaker::Guid.guid, provider: 'not_exist' } }
 
     context 'succeeding' do
       it 'returns 200 code' do
-        post :create_by_uid, valid_attrs
+        post :create_by_provider, valid_attrs
         expect(response.status).to eq 200
       end
 
       it 'creates a new user' do
         expect {
-          post :create_by_uid, valid_attrs
+          post :create_by_provider, valid_attrs
         }.to change { User.count }.by 1
       end
 
       it 'returns a user json' do
-        post :create_by_uid, valid_attrs
+        post :create_by_provider, valid_attrs
         expect(json_response['private_token']).not_to be_nil
       end
 
       it 'uses email in params if params include a email' do
-        post :create_by_uid, valid_attrs_with_email
+        post :create_by_provider, valid_attrs_with_email
         expect(json_response['email']).to eq 'test_email@qq.com'
       end
 
       it 'directly return the user if authentication exists' do
         user = create :user
         user.authentications.create(uid: 'test_uid', provider: 'wechat')
-        post :create_by_uid, { uid: 'test_uid', provider: 'wechat' }
+        post :create_by_provider, { uid: 'test_uid', provider: 'wechat' }
         expect(json_response['private_token']).to eq user.private_token
       end
     end
 
     context 'failing' do
       it 'returns 422 code' do
-        post :create_by_uid, invalid_attrs
+        post :create_by_provider, invalid_attrs
         expect(response.status).to eq 422
       end
     end

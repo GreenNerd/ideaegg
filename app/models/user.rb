@@ -63,7 +63,7 @@ class User < ActiveRecord::Base
       :case_sensitive => false
     },
     :format => { with: /\A[a-zA-Z]+[a-zA-Z0-9]+\z/,
-    message: "begin with letters and only allows letters or digits"  },
+    message: "以字母开头，有字母和数字组成"  },
     :length => { minimum: 2, maximum: 30 }
   validates :fullname, :length => { maximum: 120 }
   validates :fullname, :presence => true, :on => :update
@@ -93,10 +93,11 @@ class User < ActiveRecord::Base
     end
 
     def generate_one_user username = nil, email = nil
+      random_username = generate_one_username
       password = Forgery(:basic).password(at_least: 8)
       User.new(
-                username: username || Forgery(:internet).user_name,
-                email: email || Forgery(:email).address,
+                username: username || random_username,
+                email: email || "#{random_username}@ideaegg.me",
                 password: password,
                 password_confirmation: password
                   )
@@ -106,6 +107,13 @@ class User < ActiveRecord::Base
       user = User.generate_one_user params[:username], params[:email]
       user.authentications.build(uid: params[:uid], provider: params[:provider])
       user
+    end
+
+    def generate_one_username
+      loop do
+        username = Forgery(:internet).user_name
+        break username unless User.where(username: username).first
+      end
     end
   end
 

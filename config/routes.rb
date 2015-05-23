@@ -39,7 +39,7 @@ Rails.application.routes.draw do
       post 'sign_up' => 'users#create'
       post 'sign_in' => 'sessions#create'
       get  'sign_up_temporarily' => 'users#sign_up_temporarily'
-      post 'sign_in_with/:provider' => 'sessions#create_by_uid'
+      post 'sign_in_with/:provider' => 'sessions#create_by_provider'
 
       post 'markdown/preview' => 'markdown#preview'
 
