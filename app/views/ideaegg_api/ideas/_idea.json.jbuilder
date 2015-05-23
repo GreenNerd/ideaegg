@@ -1,0 +1,1 @@
+json.(idea, :id, :title, :cover, :summary, :content, :content_html)

@@ -1,0 +1,16 @@
+zh-CN:
+  activerecord:
+    models:
+      user: 用户
+
+    attributes:
+      idea:
+        title: 标题
+        cover: 封面
+        summary: 概要
+        content: 内容
+      user:
+        email: 邮箱
+        username: 用户名
+        password: 密码
+        password_confirmation: 确认密码

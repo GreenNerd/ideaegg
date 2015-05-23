@@ -83,14 +83,15 @@ gem 'redcarpet', '~> 3.2.2'
 # tag
 gem 'acts-as-taggable-on', '~> 3.4'
 
+gem 'rails-i18n'
+
 group :development, :test do
   gem 'rspec-rails', '>= 3.1.0'
   gem 'factory_girl_rails', '>= 4.5.0'
   gem 'ffaker', '>= 1.25.0'
   gem 'seed-fu', '>= 2.3'
   gem 'guard-rspec', '>= 4.3.1'
-  gem 'spork-rails', '>= 4.0.0'
-  gem 'guard-spork', '>= 2.0.1'
+  gem 'spring-commands-rspec'
   gem 'simplecov', :require => false
   gem 'launchy', '>= 2.4.3'
   gem 'database_cleaner', '>= 1.3.0', :require => false
@@ -101,6 +102,9 @@ end
 group :development do
   gem 'annotate'
   gem 'pry-rails'
+
+  gem 'pry'
+  gem 'pry-byebug', '2.0.0'
 
   # Use Capistrano for deployment
   gem 'capistrano'
@@ -122,3 +126,5 @@ group :production do
   # webserver
   gem 'unicorn'
 end
+
+gem 'forgery'
