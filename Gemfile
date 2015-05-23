@@ -91,8 +91,7 @@ group :development, :test do
   gem 'ffaker', '>= 1.25.0'
   gem 'seed-fu', '>= 2.3'
   gem 'guard-rspec', '>= 4.3.1'
-  gem 'spork-rails', '>= 4.0.0'
-  gem 'guard-spork', '>= 2.0.1'
+  gem 'spring-commands-rspec'
   gem 'simplecov', :require => false
   gem 'launchy', '>= 2.4.3'
   gem 'database_cleaner', '>= 1.3.0', :require => false
