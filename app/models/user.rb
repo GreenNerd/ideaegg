@@ -62,8 +62,8 @@ class User < ActiveRecord::Base
     :uniqueness => {
       :case_sensitive => false
     },
-    :format => { with: /\A[a-zA-Z]+[a-zA-Z0-9]+\z/,
-    message: "以字母开头，有字母和数字组成"  },
+    :format => { with: /\A\w+\z/,
+    message: "只允许数字、大小写字母和下划线"  },
     :length => { minimum: 2, maximum: 30 }
   validates :fullname, :length => { maximum: 120 }
   validates :fullname, :presence => true, :on => :update
@@ -111,7 +111,7 @@ class User < ActiveRecord::Base
 
     def generate_one_username
       loop do
-        username = Forgery(:internet).user_name
+        username = SecureRandom.hex(4)
         break username unless User.where(username: username).first
       end
     end
