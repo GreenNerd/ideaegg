@@ -54,6 +54,7 @@ class User < ActiveRecord::Base
   has_many :ideas, dependent: :destroy
   has_many :stars
   has_many :starred_ideas, through: :stars, source: :starrable, source_type: 'Idea'
+  has_many :authentications, dependent: :destroy
 
   # validations
   validates :username,
@@ -61,8 +62,8 @@ class User < ActiveRecord::Base
     :uniqueness => {
       :case_sensitive => false
     },
-    :format => { with: /\A[a-zA-Z]+[a-zA-Z0-9]+\z/,
-    message: "begin with letters and only allows letters or digits"  },
+    :format => { with: /\A\w+\z/,
+    message: "只允许数字、大小写字母和下划线"  },
     :length => { minimum: 2, maximum: 30 }
   validates :fullname, :length => { maximum: 120 }
   validates :fullname, :presence => true, :on => :update
@@ -88,6 +89,30 @@ class User < ActiveRecord::Base
                                  { :value => login.downcase }]).first
       else
         where(conditions).first
+      end
+    end
+
+    def build_with_attributes username = nil, email = nil
+      random_username = generate_one_username
+      password = Forgery(:basic).password(at_least: 8)
+      User.new(
+                username: username || random_username,
+                email: email || "#{random_username}@ideaegg.me",
+                password: password,
+                password_confirmation: password
+                  )
+    end
+
+    def build_with_authentication options
+      user = User.build_with_attributes options[:username], options[:email]
+      user.authentications.build(uid: options[:uid], provider: options[:provider])
+      user
+    end
+
+    def generate_one_username
+      loop do
+        username = SecureRandom.hex(4)
+        break username unless User.where(username: username).first
       end
     end
   end

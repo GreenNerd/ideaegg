@@ -21,6 +21,8 @@ FactoryGirl.define do
   factory :idea do
     author
     title "Hello"
-    content "World"
+    content "**World**"
+    cover "http://test_image/test.png"
+    summary FFaker::BaconIpsum.sentence
   end
 end
