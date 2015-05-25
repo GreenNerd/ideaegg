@@ -2,7 +2,7 @@
 lock '3.4.0'
 
 set :application, 'ideaegg'
-set :repo_url, 'git@gitcan.com:ideaegg/ideaegg.git'
+set :repo_url, 'git@github.com:GreenNerd/ideaegg.git'
 set :branch, 'master'
 
 # Default branch is :master
