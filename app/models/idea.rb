@@ -39,7 +39,6 @@ class Idea < ActiveRecord::Base
   validates :title, presence: true, length: { maximum: 140 }
   validates :content, presence: true
   validates :cover, presence: true
-  validates :summary, presence: true
 
   # Scopes
   default_scope { order(created_at: :desc, id: :desc) }
