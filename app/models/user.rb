@@ -153,6 +153,10 @@ class User < ActiveRecord::Base
     stars.where(starrable_type: 'Idea')
   end
 
+  def votes_for_idea
+    ActsAsVotable::Vote.where(voter: self, votable_type: 'Idea').order(created_at: :desc)
+  end
+
   private
     def autofill_fullname
       self.fullname = self.username if self.fullname.blank?

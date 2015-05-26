@@ -89,20 +89,22 @@ RSpec.describe IdeaeggApi::UsersController, :type => :controller do
   describe 'GET voted_ideas' do
     let(:user) { create :user }
     let(:idea) { create :idea }
+    let(:another_idea) { create :idea }
     before :each do
       request.env["PRIVATE-TOKEN"] = user.private_token
       user.likes idea
+      user.likes another_idea
     end
 
     it 'assigns the ideas' do
       get :voted_ideas
-      expect(assigns(:ideas)).to eq [idea]
+      expect(assigns(:ideas)).to eq [another_idea, idea]
     end
 
     it 'returns voted ideas json' do
       get :voted_ideas
-      expect(json_response.size).to eq 1
-      expect(json_response.first['id']).to eq idea.id
+      expect(json_response.size).to eq 2
+      expect(json_response.first['id']).to eq another_idea.id
     end
   end
 

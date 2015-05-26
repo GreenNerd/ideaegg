@@ -30,7 +30,8 @@ class IdeaeggApi::UsersController < IdeaeggApi::ApplicationController
   end
 
   def voted_ideas
-    @ideas = paginate @user.all_likes
+    idea_ids = (paginate @user.votes_for_idea).map(&:votable_id)
+    @ideas = Idea.find idea_ids
     render layout: false
   end
 
