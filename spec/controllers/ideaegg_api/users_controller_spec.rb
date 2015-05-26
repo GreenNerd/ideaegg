@@ -128,4 +128,24 @@ RSpec.describe IdeaeggApi::UsersController, :type => :controller do
     end
   end
 
+  describe 'GET created_ideas' do
+    let(:user) { create :user }
+    let!(:idea) { create :idea, user_id: user.id }
+    before :each do
+      request.env["PRIVATE-TOKEN"] = user.private_token
+    end
+
+    it 'assigns the ideas' do
+      get :created_ideas
+      expect(assigns(:ideas)).to eq [idea]
+    end
+
+    it 'returns created ideas json' do
+      get :created_ideas
+      expect(json_response.size).to eq 1
+      expect(json_response.first['id']).to eq idea.id
+    end
+
+  end
+
 end

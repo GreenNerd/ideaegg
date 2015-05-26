@@ -1,5 +1,5 @@
 class IdeaeggApi::UsersController < IdeaeggApi::ApplicationController
-  before_action :authenticate_user_from_token!, only: [:show, :update, :voted_ideas, :starred_ideas]
+  before_action :authenticate_user_from_token!, except: [:create, :sign_up_temporarily]
 
   def create
     @user = User.new(user_params)
@@ -37,6 +37,11 @@ class IdeaeggApi::UsersController < IdeaeggApi::ApplicationController
   def starred_ideas
     idea_ids = (paginate @user.stars_for_idea).map(&:starrable_id)
     @ideas = Idea.find idea_ids
+    render :voted_ideas, layout: false
+  end
+
+  def created_ideas
+    @ideas = paginate @user.ideas
     render :voted_ideas, layout: false
   end
 
