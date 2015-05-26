@@ -49,6 +49,7 @@ Rails.application.routes.draw do
       delete  'ideas/:id/star' => 'ideas#unstar'
       get     'user/ideas/starred' => 'users#starred_ideas'
       get     'user/ideas/created' => 'users#created_ideas'
+      put     'user/password' => 'users#password'
 
       post    'markdown/preview' => 'markdown#preview'
 
