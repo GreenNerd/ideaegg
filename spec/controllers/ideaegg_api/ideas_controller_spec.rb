@@ -89,4 +89,13 @@ RSpec.describe IdeaeggApi::IdeasController, :type => :controller do
     end
   end
 
+  describe 'PUT vote' do
+    let!(:idea) { create :idea }
+
+    it 'let user like the idea' do
+      put :vote, { id: idea.id }.merge(token)
+      expect(user.liked? idea).to be_truthy
+    end
+  end
+
 end

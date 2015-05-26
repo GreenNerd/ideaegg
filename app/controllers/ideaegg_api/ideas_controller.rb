@@ -1,6 +1,8 @@
 class IdeaeggApi::IdeasController < IdeaeggApi::ApplicationController
+  include IdeasHelper
+
   before_action :authenticate_user_from_token!
-  before_action :find_idea, only: [:show]
+  before_action :find_idea, only: [:show, :vote]
 
   def create
     @idea = @user.ideas.build(idea_params)
@@ -18,6 +20,11 @@ class IdeaeggApi::IdeasController < IdeaeggApi::ApplicationController
   def index
     @ideas = paginate Idea.order_created_desc
     render layout: false
+  end
+
+  def vote
+    like_idea(@user, @idea)
+    render json: { success: true }, layout: false
   end
 
   private

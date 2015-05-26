@@ -42,6 +42,7 @@ Rails.application.routes.draw do
       post 'sign_in_with/:provider' => 'sessions#create_by_provider'
       get  'user' => 'users#show'
       put  'user' => 'users#update'
+      put  'ideas/:id/vote' => 'ideas#vote'
 
       post 'markdown/preview' => 'markdown#preview'
 
