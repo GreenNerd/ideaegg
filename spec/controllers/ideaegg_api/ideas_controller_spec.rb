@@ -109,4 +109,13 @@ RSpec.describe IdeaeggApi::IdeasController, :type => :controller do
       expect(user.liked? idea).to be_falsey
     end
   end
+
+  describe 'PUT star' do
+    let!(:idea) { create :idea }
+
+    it 'let user star the idea' do
+      put :star, { id: idea.id }.merge(token)
+      expect(idea.starred_by? user).to be_truthy
+    end
+  end
 end

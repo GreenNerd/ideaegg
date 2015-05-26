@@ -155,12 +155,12 @@ module API
       #   id (required)
       # Example Request
       #   POST /ideas/:id/star
-      post ":id/star" do
-        @idea = Idea.find(params[:id])
-        not_found!('Idea') unless @idea
+      # post ":id/star" do
+      #   @idea = Idea.find(params[:id])
+      #   not_found!('Idea') unless @idea
 
-        star_idea(current_user, @idea)
-      end
+      #   star_idea(current_user, @idea)
+      # end
 
       # Unstar idea
       #
@@ -168,12 +168,12 @@ module API
       #   id (required)
       # Example Request
       #   DELETE /ideas/:id/star
-      delete ":id/star" do
-        @idea = Idea.find(params[:id])
-        not_found!('Idea') unless @idea
+      # delete ":id/star" do
+      #   @idea = Idea.find(params[:id])
+      #   not_found!('Idea') unless @idea
 
-        unstar_idea(current_user, @idea)
-      end
+      #   unstar_idea(current_user, @idea)
+      # end
     end
   end
 end
