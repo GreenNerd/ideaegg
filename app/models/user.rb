@@ -52,7 +52,7 @@ class User < ActiveRecord::Base
 
   # associations
   has_many :ideas, dependent: :destroy
-  has_many :stars
+  has_many :stars, -> { order created_at: :desc }
   has_many :starred_ideas, through: :stars, source: :starrable, source_type: 'Idea'
   has_many :authentications, dependent: :destroy
 
@@ -146,6 +146,10 @@ class User < ActiveRecord::Base
 
   def starred?(starrable)
     Star.exists?({ :starrable_id => starrable.id, :starrable_type => starrable.class.name, :user_id => self.id })
+  end
+
+  def stars_for_idea
+    stars.where(starrable_type: 'Idea')
   end
 
   private

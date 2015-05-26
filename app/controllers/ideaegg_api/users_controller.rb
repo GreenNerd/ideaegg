@@ -1,5 +1,5 @@
 class IdeaeggApi::UsersController < IdeaeggApi::ApplicationController
-  before_action :authenticate_user_from_token!, only: [:show, :update, :voted_ideas]
+  before_action :authenticate_user_from_token!, only: [:show, :update, :voted_ideas, :starred_ideas]
 
   def create
     @user = User.new(user_params)
@@ -32,6 +32,12 @@ class IdeaeggApi::UsersController < IdeaeggApi::ApplicationController
   def voted_ideas
     @ideas = paginate @user.all_likes
     render layout: false
+  end
+
+  def starred_ideas
+    idea_ids = (paginate @user.stars_for_idea).map(&:starrable_id)
+    @ideas = Idea.find idea_ids
+    render :voted_ideas, layout: false
   end
 
   private
