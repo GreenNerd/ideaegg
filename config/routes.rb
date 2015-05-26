@@ -43,6 +43,7 @@ Rails.application.routes.draw do
       get  'user' => 'users#show'
       put  'user' => 'users#update'
       put  'ideas/:id/vote' => 'ideas#vote'
+      get  'user/ideas/voted' => 'users#voted_ideas'
 
       post 'markdown/preview' => 'markdown#preview'
 

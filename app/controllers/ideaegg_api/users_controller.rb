@@ -1,5 +1,5 @@
 class IdeaeggApi::UsersController < IdeaeggApi::ApplicationController
-  before_action :authenticate_user_from_token!, only: [:show, :update]
+  before_action :authenticate_user_from_token!, only: [:show, :update, :voted_ideas]
 
   def create
     @user = User.new(user_params)
@@ -27,6 +27,11 @@ class IdeaeggApi::UsersController < IdeaeggApi::ApplicationController
     else
       render_json_error(@user)
     end
+  end
+
+  def voted_ideas
+    @ideas = paginate @user.all_likes
+    render layout: false
   end
 
   private
