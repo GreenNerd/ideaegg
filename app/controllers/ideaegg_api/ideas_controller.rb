@@ -15,6 +15,11 @@ class IdeaeggApi::IdeasController < IdeaeggApi::ApplicationController
     render layout: false
   end
 
+  def index
+    @ideas = paginate Idea.order_created_desc
+    render layout: false
+  end
+
   private
 
   def idea_params

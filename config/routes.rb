@@ -45,7 +45,7 @@ Rails.application.routes.draw do
 
       post 'markdown/preview' => 'markdown#preview'
 
-      resources :ideas, only: [:create, :show]
+      resources :ideas, only: [:create, :show, :index]
       resources :users, only: [:show]
       devise_scope :user do
         post 'reset_password' => 'passwords#create'
