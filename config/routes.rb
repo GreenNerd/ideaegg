@@ -36,16 +36,17 @@ Rails.application.routes.draw do
 
   namespace :ideaegg_api, path: :api, as: :api, defaults: { format: :json } do
     scope :v2 do
-      post 'sign_up' => 'users#create'
-      post 'sign_in' => 'sessions#create'
-      get  'sign_up_temporarily' => 'users#sign_up_temporarily'
-      post 'sign_in_with/:provider' => 'sessions#create_by_provider'
-      get  'user' => 'users#show'
-      put  'user' => 'users#update'
-      put  'ideas/:id/vote' => 'ideas#vote'
-      get  'user/ideas/voted' => 'users#voted_ideas'
+      post    'sign_up' => 'users#create'
+      post    'sign_in' => 'sessions#create'
+      get     'sign_up_temporarily' => 'users#sign_up_temporarily'
+      post    'sign_in_with/:provider' => 'sessions#create_by_provider'
+      get     'user' => 'users#show'
+      put     'user' => 'users#update'
+      put     'ideas/:id/vote' => 'ideas#vote'
+      delete  'ideas/:id/vote' => 'ideas#unvote'
+      get     'user/ideas/voted' => 'users#voted_ideas'
 
-      post 'markdown/preview' => 'markdown#preview'
+      post    'markdown/preview' => 'markdown#preview'
 
       resources :ideas, only: [:create, :show, :index]
       resources :users, only: [:show]

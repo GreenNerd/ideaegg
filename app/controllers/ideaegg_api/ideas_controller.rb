@@ -2,7 +2,7 @@ class IdeaeggApi::IdeasController < IdeaeggApi::ApplicationController
   include IdeasHelper
 
   before_action :authenticate_user_from_token!
-  before_action :find_idea, only: [:show, :vote]
+  before_action :find_idea, only: [:show, :vote, :unvote]
 
   def create
     @idea = @user.ideas.build(idea_params)
@@ -24,6 +24,11 @@ class IdeaeggApi::IdeasController < IdeaeggApi::ApplicationController
 
   def vote
     like_idea(@user, @idea)
+    render json: { success: true }, layout: false
+  end
+
+  def unvote
+    unlike_idea(@user, @idea)
     render json: { success: true }, layout: false
   end
 

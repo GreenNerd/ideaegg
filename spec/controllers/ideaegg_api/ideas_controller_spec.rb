@@ -98,4 +98,15 @@ RSpec.describe IdeaeggApi::IdeasController, :type => :controller do
     end
   end
 
+  describe 'Delete unvote' do
+    let!(:idea) { create :idea }
+    before :each do
+      user.likes idea
+    end
+
+    it 'let user like the idea' do
+      delete :unvote, { id: idea.id }.merge(token)
+      expect(user.liked? idea).to be_falsey
+    end
+  end
 end
