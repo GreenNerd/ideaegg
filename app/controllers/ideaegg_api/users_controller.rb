@@ -1,4 +1,5 @@
 class IdeaeggApi::UsersController < IdeaeggApi::ApplicationController
+  before_action :authenticate_user_from_token!, only: [:show]
 
   def create
     @user = User.new(user_params)
@@ -13,6 +14,11 @@ class IdeaeggApi::UsersController < IdeaeggApi::ApplicationController
     @user = User.build_with_attributes
     @user.save
     render :create, layout: false
+  end
+
+  def show
+    @user = params[:id] ? User.find(params[:id]) : @user
+    render :show, layout: false
   end
 
   private

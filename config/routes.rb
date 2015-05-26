@@ -40,11 +40,12 @@ Rails.application.routes.draw do
       post 'sign_in' => 'sessions#create'
       get  'sign_up_temporarily' => 'users#sign_up_temporarily'
       post 'sign_in_with/:provider' => 'sessions#create_by_provider'
+      get  'user' => 'users#show'
 
       post 'markdown/preview' => 'markdown#preview'
 
       resources :ideas, only: [:create, :show]
-
+      resources :users, only: [:show]
       devise_scope :user do
         post 'reset_password' => 'passwords#create'
       end
