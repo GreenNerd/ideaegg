@@ -46,6 +46,7 @@ Rails.application.routes.draw do
       delete  'ideas/:id/vote' => 'ideas#unvote'
       get     'user/ideas/voted' => 'users#voted_ideas'
       put     'ideas/:id/star' => 'ideas#star'
+      delete  'ideas/:id/star' => 'ideas#unstar'
 
       post    'markdown/preview' => 'markdown#preview'
 

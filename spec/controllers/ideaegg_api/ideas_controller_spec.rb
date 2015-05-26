@@ -104,7 +104,7 @@ RSpec.describe IdeaeggApi::IdeasController, :type => :controller do
       user.likes idea
     end
 
-    it 'let user like the idea' do
+    it 'let user unlike the idea' do
       delete :unvote, { id: idea.id }.merge(token)
       expect(user.liked? idea).to be_falsey
     end
@@ -116,6 +116,18 @@ RSpec.describe IdeaeggApi::IdeasController, :type => :controller do
     it 'let user star the idea' do
       put :star, { id: idea.id }.merge(token)
       expect(idea.starred_by? user).to be_truthy
+    end
+  end
+
+  describe 'DELETE star' do
+    let!(:idea) { create :idea }
+    before :each do
+      idea.starred_by! user
+    end
+
+    it 'unstars the idea' do
+      delete :unstar, { id: idea.id }.merge(token)
+      expect(idea.starred_by? user).to be_falsey
     end
   end
 end
