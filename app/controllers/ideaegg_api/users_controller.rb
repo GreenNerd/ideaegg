@@ -1,5 +1,4 @@
 class IdeaeggApi::UsersController < IdeaeggApi::ApplicationController
-  before_action :authenticate_user_from_token!, except: [:create, :sign_up_temporarily]
 
   def create
     @user = User.new(user_params)

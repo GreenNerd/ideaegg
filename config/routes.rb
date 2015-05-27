@@ -40,10 +40,12 @@ Rails.application.routes.draw do
       post    'sign_in' => 'sessions#create'
       get     'sign_up_temporarily' => 'users#sign_up_temporarily'
       post    'sign_in_with/:provider' => 'sessions#create_by_provider'
+
       put     'ideas/:id/vote' => 'ideas#vote'
       delete  'ideas/:id/vote' => 'ideas#unvote'
       put     'ideas/:id/star' => 'ideas#star'
       delete  'ideas/:id/star' => 'ideas#unstar'
+
       post    'markdown/preview' => 'markdown#preview'
 
       resource :user, controller: :user, only: [:show, :update] do
