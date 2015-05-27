@@ -47,11 +47,11 @@ Rails.application.routes.draw do
       delete  'ideas/:id/star' => 'ideas#unstar'
       get     'user/ideas/starred' => 'users#starred_ideas'
       get     'user/ideas/created' => 'users#created_ideas'
-      put     'user/password' => 'users#password'
-
       post    'markdown/preview' => 'markdown#preview'
 
-      resource :user, controller: :user, only: [:show, :update]
+      resource :user, controller: :user, only: [:show, :update] do
+        put 'password' => 'user#update_password'
+      end
 
       resources :ideas, only: [:create, :show, :index]
       devise_scope :user do

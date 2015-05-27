@@ -41,4 +41,39 @@ RSpec.describe IdeaeggApi::UserController, :type => :controller do
       end
     end
   end
+
+  describe 'PUT update_password' do
+    let(:user) { create :user, password: 'test_password' }
+    let(:valid_attrs) { { current_password: 'test_password', password: 'new_password', password_confirmation: 'new_password' } }
+    let(:invalid_attrs){ { current_password: 'wrong_password', password: 'new_password', password_confirmation: 'new_password' } }
+    let(:another_invalid_attrs){ { current_password: 'test_password', password: 'new_password', password_confirmation: 'another_new_password' } }
+
+    context 'succeeding' do
+      it 'resets password and change private_token' do
+        expect {
+          put :update_password, valid_attrs
+          user.reload
+        }.to change { user.private_token }
+      end
+
+      it 'returns a user json' do
+        put :update_password, valid_attrs
+        expect(json_response['private_token']).not_to be_nil
+      end
+    end
+
+    context 'failing with wrong current password' do
+      it 'returns 422' do
+        put :update_password, invalid_attrs
+        expect(response.status).to eq 422
+      end
+    end
+
+    context 'failing validation' do
+      it 'returns 422' do
+        put :update_password, another_invalid_attrs
+        expect(response.status).to eq 422
+      end
+    end
+  end
 end
