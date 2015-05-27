@@ -42,6 +42,12 @@ class IdeaeggApi::IdeasController < IdeaeggApi::ApplicationController
     render json: { success: true }, layout: false
   end
 
+  def voted
+    idea_ids = (paginate @user.votes_for_idea).map(&:votable_id)
+    @ideas = Idea.find idea_ids
+    render :index, layout: false
+  end
+
   private
 
   def idea_params

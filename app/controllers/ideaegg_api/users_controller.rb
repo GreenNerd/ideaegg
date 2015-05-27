@@ -16,12 +16,6 @@ class IdeaeggApi::UsersController < IdeaeggApi::ApplicationController
     render :create, layout: false
   end
 
-  def voted_ideas
-    idea_ids = (paginate @user.votes_for_idea).map(&:votable_id)
-    @ideas = Idea.find idea_ids
-    render layout: false
-  end
-
   def starred_ideas
     idea_ids = (paginate @user.stars_for_idea).map(&:starrable_id)
     @ideas = Idea.find idea_ids

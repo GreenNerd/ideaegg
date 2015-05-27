@@ -42,7 +42,6 @@ Rails.application.routes.draw do
       post    'sign_in_with/:provider' => 'sessions#create_by_provider'
       put     'ideas/:id/vote' => 'ideas#vote'
       delete  'ideas/:id/vote' => 'ideas#unvote'
-      get     'user/ideas/voted' => 'users#voted_ideas'
       put     'ideas/:id/star' => 'ideas#star'
       delete  'ideas/:id/star' => 'ideas#unstar'
       get     'user/ideas/starred' => 'users#starred_ideas'
@@ -51,6 +50,12 @@ Rails.application.routes.draw do
 
       resource :user, controller: :user, only: [:show, :update] do
         put 'password' => 'user#update_password'
+
+        resources :ideas, only: [] do
+          collection do
+            get :voted
+          end
+        end
       end
 
       resources :ideas, only: [:create, :show, :index]
