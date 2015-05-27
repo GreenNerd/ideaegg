@@ -16,14 +16,6 @@ class IdeaeggApi::UsersController < IdeaeggApi::ApplicationController
     render :create, layout: false
   end
 
-  def update
-    if @user.update update_user_params
-      render :show, layout: false
-    else
-      render_json_error(@user)
-    end
-  end
-
   def voted_ideas
     idea_ids = (paginate @user.votes_for_idea).map(&:votable_id)
     @ideas = Idea.find idea_ids
@@ -57,10 +49,6 @@ class IdeaeggApi::UsersController < IdeaeggApi::ApplicationController
 
   def user_params
     params.permit(:username, :email, :password, :password_confirmation)
-  end
-
-  def update_user_params
-    params.permit(:fullname, :avatar, :phone_number)
   end
 
   def update_password_params
