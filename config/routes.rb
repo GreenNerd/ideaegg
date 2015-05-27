@@ -41,9 +41,7 @@ Rails.application.routes.draw do
       get     'sign_up_temporarily' => 'users#sign_up_temporarily'
       post    'sign_in_with/:provider' => 'sessions#create_by_provider'
 
-      put     'ideas/:id/vote' => 'ideas#vote'
       delete  'ideas/:id/vote' => 'ideas#unvote'
-      put     'ideas/:id/star' => 'ideas#star'
       delete  'ideas/:id/star' => 'ideas#unstar'
 
       post    'markdown/preview' => 'markdown#preview'
@@ -60,7 +58,12 @@ Rails.application.routes.draw do
         end
       end
 
-      resources :ideas, only: [:create, :show, :index]
+      resources :ideas, only: [:create, :show, :index] do
+        member do
+          put :vote
+          put :star
+        end
+      end
       devise_scope :user do
         post 'reset_password' => 'passwords#create'
       end
