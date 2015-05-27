@@ -65,4 +65,14 @@ describe User do
     user = FactoryGirl.create(:user, username: 'RanDom')
     it { expect(user.username).to eq user.username.downcase }
   end
+
+  describe 'update' do
+    it 'changes authentication token if change password' do
+      user = create :user
+      expect {
+        user.update(password: '12345678', password_confirmation: '12345678')
+        user.reload
+      }.to change { user.authentication_token }
+    end
+  end
 end
