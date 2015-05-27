@@ -54,6 +54,11 @@ class IdeaeggApi::IdeasController < IdeaeggApi::ApplicationController
     render :index, layout: false
   end
 
+  def created
+    @ideas = paginate @user.ideas
+    render :index, layout: false
+  end
+
   private
 
   def idea_params

@@ -16,11 +16,6 @@ class IdeaeggApi::UsersController < IdeaeggApi::ApplicationController
     render :create, layout: false
   end
 
-  def created_ideas
-    @ideas = paginate @user.ideas
-    render :voted_ideas, layout: false
-  end
-
   private
 
   def user_params
