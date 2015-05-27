@@ -48,6 +48,12 @@ class IdeaeggApi::IdeasController < IdeaeggApi::ApplicationController
     render :index, layout: false
   end
 
+  def starred
+    idea_ids = (paginate @user.stars_for_idea).map(&:starrable_id)
+    @ideas = Idea.find idea_ids
+    render :index, layout: false
+  end
+
   private
 
   def idea_params

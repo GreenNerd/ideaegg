@@ -54,6 +54,7 @@ Rails.application.routes.draw do
         resources :ideas, only: [] do
           collection do
             get :voted
+            get :starred
           end
         end
       end
