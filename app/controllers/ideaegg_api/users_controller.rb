@@ -16,11 +16,6 @@ class IdeaeggApi::UsersController < IdeaeggApi::ApplicationController
     render :create, layout: false
   end
 
-  def show
-    @user = params[:id] ? User.find(params[:id]) : @user
-    render :show, layout: false
-  end
-
   def update
     if @user.update update_user_params
       render :show, layout: false

@@ -40,7 +40,6 @@ Rails.application.routes.draw do
       post    'sign_in' => 'sessions#create'
       get     'sign_up_temporarily' => 'users#sign_up_temporarily'
       post    'sign_in_with/:provider' => 'sessions#create_by_provider'
-      get     'user' => 'users#show'
       put     'user' => 'users#update'
       put     'ideas/:id/vote' => 'ideas#vote'
       delete  'ideas/:id/vote' => 'ideas#unvote'
@@ -53,8 +52,9 @@ Rails.application.routes.draw do
 
       post    'markdown/preview' => 'markdown#preview'
 
+      resource :user, controller: :user, only: [:show]
+
       resources :ideas, only: [:create, :show, :index]
-      resources :users, only: [:show]
       devise_scope :user do
         post 'reset_password' => 'passwords#create'
       end
