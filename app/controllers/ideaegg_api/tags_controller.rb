@@ -14,6 +14,11 @@ class IdeaeggApi::TagsController < IdeaeggApi::ApplicationController
     @tags = paginate ActsAsTaggableOn::Tag.order('taggings_count DESC').all
   end
 
+  def query
+    @tags = paginate ActsAsTaggableOn::Tag.where("name LIKE ?", "%#{params[:name]}%").order('taggings_count DESC')
+    render :index
+  end
+
   private
 
   def tag_params

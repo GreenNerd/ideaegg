@@ -56,4 +56,13 @@ RSpec.describe IdeaeggApi::TagsController, :type => :controller do
     end
   end
 
+  describe 'POST query' do
+    let!(:tag) { create :tag, name: '中文名字' }
+    let(:query_attr) { { name: '文' } }
+
+    it 'returns results by a json' do
+      post :query, query_attr
+      expect(json_response.first['name']).to eq '中文名字'
+    end
+  end
 end
