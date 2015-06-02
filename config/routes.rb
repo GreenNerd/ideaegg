@@ -63,6 +63,9 @@ Rails.application.routes.draw do
           put :vote
           put :star
         end
+        collection do
+          get :features
+        end
       end
       devise_scope :user do
         post 'reset_password' => 'passwords#create'

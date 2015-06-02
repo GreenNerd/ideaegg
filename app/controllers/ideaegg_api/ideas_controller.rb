@@ -22,6 +22,11 @@ class IdeaeggApi::IdeasController < IdeaeggApi::ApplicationController
     render layout: false
   end
 
+  def features
+    @ideas = paginate Idea.sorted_by_votes
+    render :index
+  end
+
   def vote
     like_idea(@user, @idea)
     render json: { success: true }, layout: false

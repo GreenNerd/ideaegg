@@ -89,6 +89,31 @@ RSpec.describe IdeaeggApi::IdeasController, :type => :controller do
     end
   end
 
+  describe 'GET features' do
+    let!(:idea) { create :idea }
+    let!(:another_idea) { create :idea }
+
+    before :each do
+      request.env["PRIVATE-TOKEN"] = user.private_token
+      user.likes idea
+    end
+
+    it 'assigns the ideas' do
+      get :features
+      expect(assigns(:ideas)).to eq [idea, another_idea]
+    end
+
+    it 'returns a ideas json' do
+      get :features, { per_page: 1, page: 2 }
+      expect(json_response.first['id']).to eq another_idea.id
+    end
+
+    it 'response link header includes pagination info' do
+      get :index, { per_page: 1, page: 1 }
+      expect(response.header['Link']).not_to be_nil
+    end
+  end
+
   describe 'PUT vote' do
     let!(:idea) { create :idea }
 

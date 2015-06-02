@@ -50,7 +50,7 @@ class Idea < ActiveRecord::Base
 
   scope :sorted_by_stars, -> { reorder('ideas.stars_count DESC') }
   scope :sorted_by_comments, -> { reorder('ideas.comments_count DESC') }
-  scope :sorted_by_likes, -> { reorder('ideas.cached_votes_up DESC') }
+  scope :sorted_by_votes, -> { reorder('ideas.cached_votes_up DESC') }
 
   scope :all_public, -> { where(public: true) }
   scope :visible_to, ->(user) { where('level <= ?', user.level) }
