@@ -68,7 +68,8 @@ Rails.application.routes.draw do
         end
       end
 
-      resources :tags, only: [:create]
+      resources :tags, only: [:create, :index]
+
       devise_scope :user do
         post 'reset_password' => 'passwords#create'
       end

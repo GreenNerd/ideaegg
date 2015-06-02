@@ -10,6 +10,10 @@ class IdeaeggApi::TagsController < IdeaeggApi::ApplicationController
     end
   end
 
+  def index
+    @tags = paginate ActsAsTaggableOn::Tag.order('taggings_count DESC').all
+  end
+
   private
 
   def tag_params

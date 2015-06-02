@@ -41,4 +41,19 @@ RSpec.describe IdeaeggApi::TagsController, :type => :controller do
     end
   end
 
+  describe 'GET index' do
+    let!(:tag) { create :tag }
+    let!(:another_tag) { create :tag, taggings_count: 0 }
+
+    it 'assigns the tags' do
+      get :index
+      expect(assigns(:tags)).to eq [tag, another_tag]
+    end
+
+    it 'returns tags json' do
+      get :index
+      expect(json_response.size).to eq 2
+    end
+  end
+
 end
