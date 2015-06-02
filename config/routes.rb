@@ -67,6 +67,8 @@ Rails.application.routes.draw do
           get :features
         end
       end
+
+      resources :tags, only: [:create]
       devise_scope :user do
         post 'reset_password' => 'passwords#create'
       end
