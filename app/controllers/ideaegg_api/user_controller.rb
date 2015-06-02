@@ -2,12 +2,11 @@ class IdeaeggApi::UserController < IdeaeggApi::ApplicationController
   before_action :authenticate_user_from_token!
 
   def show
-    render layout: false
   end
 
   def update
     if @user.update update_user_params
-      render :show, layout: false
+      render :show
     else
       render_json_error(@user)
     end
@@ -16,7 +15,7 @@ class IdeaeggApi::UserController < IdeaeggApi::ApplicationController
   def update_password
     if @user.valid_password?(params[:current_password])
       if @user.update update_password_params
-        render :show, layout: false
+        render :show
       else
         render json: { errors: error_messages(@user) }, status: 422
       end

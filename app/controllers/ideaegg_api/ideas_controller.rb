@@ -7,19 +7,17 @@ class IdeaeggApi::IdeasController < IdeaeggApi::ApplicationController
   def create
     @idea = @user.ideas.build(idea_params)
     if @idea.save
-      render layout: false, status: 201
+      render status: 201
     else
       render json: { errors: error_messages(@idea) }, status: 422
     end
   end
 
   def show
-    render layout: false
   end
 
   def index
     @ideas = paginate Idea.order_created_desc
-    render layout: false
   end
 
   def features
@@ -29,39 +27,39 @@ class IdeaeggApi::IdeasController < IdeaeggApi::ApplicationController
 
   def vote
     like_idea(@user, @idea)
-    render json: { success: true }, layout: false
+    render json: { success: true }
   end
 
   def unvote
     unlike_idea(@user, @idea)
-    render json: { success: true }, layout: false
+    render json: { success: true }
   end
 
   def star
     star_idea(@user, @idea)
-    render json: { success: true }, layout: false
+    render json: { success: true }
   end
 
   def unstar
     unstar_idea(@user, @idea)
-    render json: { success: true }, layout: false
+    render json: { success: true }
   end
 
   def voted
     idea_ids = (paginate @user.votes_for_idea).map(&:votable_id)
     @ideas = Idea.find idea_ids
-    render :index, layout: false
+    render :index
   end
 
   def starred
     idea_ids = (paginate @user.stars_for_idea).map(&:starrable_id)
     @ideas = Idea.find idea_ids
-    render :index, layout: false
+    render :index
   end
 
   def created
     @ideas = paginate @user.ideas
-    render :index, layout: false
+    render :index
   end
 
   private

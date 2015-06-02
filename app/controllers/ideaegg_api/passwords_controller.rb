@@ -13,7 +13,7 @@ class IdeaeggApi::PasswordsController < Devise::PasswordsController
     respond_to do |format|
       if successfully_sent?(resource)
         format.html { respond_with({}, location: after_sending_reset_password_instructions_path_for(resource_name)) }
-        format.json { render json: { success: true }, layout: false }
+        format.json { render json: { success: true } }
       else
         format.html { respond_with(resource) }
         format.json { render json: { errors: resource.errors.full_messages.join('，') }, status: 422 }
