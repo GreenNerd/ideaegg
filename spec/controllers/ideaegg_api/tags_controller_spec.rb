@@ -65,4 +65,14 @@ RSpec.describe IdeaeggApi::TagsController, :type => :controller do
       expect(json_response.first['name']).to eq '中文名字'
     end
   end
+
+  describe 'GET ideas' do
+    let!(:tag) { create :tag }
+    let!(:idea) { create :idea, tag_list: tag.name }
+
+    it 'returns ideas by tagged' do
+      get :ideas, tag_id: tag.id
+      expect(assigns(:ideas)).to eq [idea]
+    end
+  end
 end
