@@ -11,6 +11,10 @@ class IdeaeggApi::CommentsController < IdeaeggApi::ApplicationController
     end
   end
 
+  def index
+    @comments = paginate @idea.comment_threads.reorder('created_at desc')
+  end
+
   private
 
   def find_idea

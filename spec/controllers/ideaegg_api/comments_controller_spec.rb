@@ -36,4 +36,19 @@ RSpec.describe IdeaeggApi::CommentsController, :type => :controller do
       end
     end
   end
+
+  describe 'GET index' do
+    let!(:comment) { create :comment, commentable: idea }
+    let!(:another_comment) { create :comment, commentable: idea }
+
+    it 'assigns the comments' do
+      get :index, idea_id: idea.id
+      expect(assigns(:comments)).to eq [another_comment, comment]
+    end
+
+    it 'returns comments json' do
+      get :index, idea_id: idea.id
+      expect(json_response.size).to eq 2
+    end
+  end
 end

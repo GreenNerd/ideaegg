@@ -67,7 +67,7 @@ Rails.application.routes.draw do
           put :star
         end
 
-        resources :comments, only: [:create]
+        resources :comments, only: [:create, :index]
       end
 
       resources :tags, only: [:create, :index] do
