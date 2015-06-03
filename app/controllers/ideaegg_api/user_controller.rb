@@ -17,7 +17,7 @@ class IdeaeggApi::UserController < IdeaeggApi::ApplicationController
       if @user.update update_password_params
         render :show
       else
-        render json: { errors: error_messages(@user) }, status: 422
+        render_json_error(@user)
       end
     else
       render json: { errors: '密码错误。' }, status: 422

@@ -10,7 +10,7 @@ class IdeaeggApi::IdeasController < IdeaeggApi::ApplicationController
     if @idea.save
       render status: 201
     else
-      render json: { errors: error_messages(@idea) }, status: 422
+      render_json_error(@idea)
     end
   end
 
