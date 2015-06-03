@@ -20,11 +20,6 @@ class IdeaeggApi::IdeasController < IdeaeggApi::ApplicationController
     @ideas = paginate Idea.order_created_desc
   end
 
-  def features
-    @ideas = paginate Idea.sorted_by_votes
-    render :index
-  end
-
   def vote
     like_idea(@user, @idea)
     render json: { success: true }

@@ -63,9 +63,6 @@ Rails.application.routes.draw do
           put :vote
           put :star
         end
-        collection do
-          get :features
-        end
       end
 
       resources :tags, only: [:create, :index] do
@@ -73,6 +70,12 @@ Rails.application.routes.draw do
 
         collection do
           post :query
+        end
+      end
+
+      resources :features, only: [] do
+        collection do
+          get :ideas
         end
       end
 
