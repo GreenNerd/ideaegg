@@ -196,4 +196,21 @@ RSpec.describe IdeaeggApi::IdeasController, :type => :controller do
       expect(json_response.first['id']).to eq idea.id
     end
   end
+
+  describe 'POST tags' do
+    let(:user) { create :user }
+    let!(:idea) { create :idea, user_id: user.id }
+    let(:tag_params) { { tag: 'name1, name2' } }
+
+    before :each do
+      request.env["PRIVATE-TOKEN"] = user.private_token
+    end
+
+    it 'add two tags for the idea' do
+      expect {
+        post :tags, { idea_id: idea.id }.merge!(tag_params)
+        idea.reload
+      }.to change { idea.tag_list.count }.by 2
+    end
+  end
 end

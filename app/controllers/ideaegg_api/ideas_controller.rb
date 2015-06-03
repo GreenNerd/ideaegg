@@ -2,7 +2,7 @@ class IdeaeggApi::IdeasController < IdeaeggApi::ApplicationController
   include IdeasHelper
 
   before_action :authenticate_user_from_token!
-  before_action :find_idea, only: [:show, :vote, :unvote, :star, :unstar]
+  before_action :find_idea, only: [:show, :vote, :unvote, :star, :unstar, :tags]
 
   def create
     @idea = @user.ideas.build(idea_params)
@@ -57,6 +57,12 @@ class IdeaeggApi::IdeasController < IdeaeggApi::ApplicationController
     render :index
   end
 
+  def tags
+    @idea.tag_list.add(params[:tag], parse: true)
+    @idea.save
+    render json: { success: true }
+  end
+
   private
 
   def idea_params
@@ -64,6 +70,7 @@ class IdeaeggApi::IdeasController < IdeaeggApi::ApplicationController
   end
 
   def find_idea
-    @idea = Idea.find(params[:id])
+    id = params[:id] || params[:idea_id]
+    @idea = Idea.find(id)
   end
 end

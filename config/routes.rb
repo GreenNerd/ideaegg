@@ -59,6 +59,8 @@ Rails.application.routes.draw do
       end
 
       resources :ideas, only: [:create, :show, :index] do
+        post :tags
+
         member do
           put :vote
           put :star
