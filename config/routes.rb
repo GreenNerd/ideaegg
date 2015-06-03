@@ -66,6 +66,8 @@ Rails.application.routes.draw do
           put :vote
           put :star
         end
+
+        resources :comments, only: [:create]
       end
 
       resources :tags, only: [:create, :index] do
