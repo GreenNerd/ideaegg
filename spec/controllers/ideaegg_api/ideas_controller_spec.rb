@@ -75,19 +75,34 @@ RSpec.describe IdeaeggApi::IdeasController, :type => :controller do
     let!(:idea) { create :idea }
     let!(:another_idea) { create :idea }
 
-    it 'assigns the ideas' do
-      get :index, { per_page: 1, page: 1 }
-      expect(assigns(:ideas)).to eq [another_idea]
+    context 'when params tag not existing' do
+      it 'assigns the ideas' do
+        get :index, { per_page: 1, page: 1 }
+        expect(assigns(:ideas)).to eq [another_idea]
+      end
+
+      it 'returns a ideas json' do
+        get :index, { per_page: 1, page: 1 }
+        expect(json_response.first['id']).to eq another_idea.id
+      end
+
+      it 'response link header includes pagination info' do
+        get :index, { per_page: 1, page: 1 }
+        expect(response.header['Link']).not_to be_nil
+      end
     end
 
-    it 'returns a ideas json' do
-      get :index, { per_page: 1, page: 1 }
-      expect(json_response.first['id']).to eq another_idea.id
-    end
+    context 'when params tag existing' do
+      before do
+        idea.tag_list.add("test_tag")
+        idea.save
+      end
 
-    it 'response link header includes pagination info' do
-      get :index, { per_page: 1, page: 1 }
-      expect(response.header['Link']).not_to be_nil
+      it 'returns ideas by tag' do
+        get :index, { tag: 'test_tag' }
+        expect(json_response.size).to eq 1
+        expect(json_response.first['id']).to eq idea.id
+      end
     end
   end
 

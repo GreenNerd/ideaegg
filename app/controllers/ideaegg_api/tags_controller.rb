@@ -29,12 +29,6 @@ class IdeaeggApi::TagsController < IdeaeggApi::ApplicationController
     render :index
   end
 
-  def ideas
-    @tag = ActsAsTaggableOn::Tag.find(params[:tag_id])
-    @ideas = paginate Idea.tagged_with(@tag.name)
-    render 'ideaegg_api/ideas/index'
-  end
-
   private
 
   def tag_params

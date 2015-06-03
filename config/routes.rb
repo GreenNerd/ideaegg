@@ -72,8 +72,6 @@ Rails.application.routes.draw do
       end
 
       resources :tags, only: [:create, :index] do
-        get :ideas
-
         collection do
           get :query
         end

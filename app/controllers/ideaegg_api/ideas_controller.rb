@@ -18,7 +18,11 @@ class IdeaeggApi::IdeasController < IdeaeggApi::ApplicationController
   end
 
   def index
-    @ideas = paginate Idea.order_created_desc
+    if params[:tag].present?
+      @ideas = paginate Idea.tagged_with(params[:tag].split(','), match_all: true)
+    else
+      @ideas = paginate Idea.order_created_desc
+    end
   end
 
   def vote
