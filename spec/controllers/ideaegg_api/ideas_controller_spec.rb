@@ -193,14 +193,43 @@ RSpec.describe IdeaeggApi::IdeasController, :type => :controller do
   end
 
   describe 'POST tags' do
-    let!(:idea) { create :idea, user_id: user.id }
+    let(:idea) { create :idea, user_id: user.id }
     let(:tag_params) { { tag: 'name1, name2' } }
+    let(:another_idea) { create :idea }
 
     it 'add two tags for the idea' do
       expect {
         post :tags, { idea_id: idea.id }.merge!(tag_params)
         idea.reload
       }.to change { idea.tag_list.count }.by 2
+    end
+
+    it 'returns 404 if idea not belongs to user' do
+      post :tags, { idea_id: another_idea }.merge!(tag_params)
+      expect(response.status).to eq 404
+    end
+  end
+
+  describe 'DELETE cancel_tags' do
+    let(:idea) { create :idea, user_id: user.id }
+    let(:tag_params) { { tag: 'name1, name2' } }
+    let(:another_idea) { create :idea }
+
+    before :each do
+      idea.tag_list.add("name1, name2", parse: true)
+      idea.save
+    end
+
+    it 'cancel two tags for the idea' do
+      expect {
+        delete :cancel_tags, { idea_id: idea.id }.merge!(tag_params)
+        idea.reload
+      }.to change { idea.tag_list.count }.by -2
+    end
+
+    it 'returns 404 if idea not belongs to user' do
+      delete :cancel_tags, { idea_id: another_idea }.merge!(tag_params)
+      expect(response.status).to eq 404
     end
   end
 end

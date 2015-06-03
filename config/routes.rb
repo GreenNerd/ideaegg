@@ -43,6 +43,7 @@ Rails.application.routes.draw do
 
       delete  'ideas/:id/vote' => 'ideas#unvote'
       delete  'ideas/:id/star' => 'ideas#unstar'
+      delete  'ideas/:idea_id/tags' => 'ideas#cancel_tags'
 
       post    'markdown/preview' => 'markdown#preview'
 
