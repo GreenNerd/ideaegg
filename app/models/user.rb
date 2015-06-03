@@ -137,7 +137,7 @@ class User < ActiveRecord::Base
     all_following
   end
 
-  def all_likes
+  def voted_ideas
     get_up_voted(Idea)
   end
 

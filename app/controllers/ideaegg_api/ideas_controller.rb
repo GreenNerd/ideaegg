@@ -42,14 +42,12 @@ class IdeaeggApi::IdeasController < IdeaeggApi::ApplicationController
   end
 
   def voted
-    idea_ids = (paginate @user.votes_for_idea).map(&:votable_id)
-    @ideas = Idea.find idea_ids
+    @ideas = paginate @user.voted_ideas.reorder("'votes'.'created_at' DESC")
     render :index
   end
 
   def starred
-    idea_ids = (paginate @user.stars_for_idea).map(&:starrable_id)
-    @ideas = Idea.find idea_ids
+    @ideas = paginate @user.starred_ideas.reorder("'stars'.'created_at' DESC")
     render :index
   end
 
