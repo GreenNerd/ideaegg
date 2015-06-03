@@ -8,10 +8,10 @@ class IdeaeggApi::ApplicationController < ApplicationController
   private
 
   def render_json_error(obj = nil)
-    if obj.present?
+    if obj.respond_to?(:errors)
       render json: { errors: error_messages(obj) }, status: :unprocessable_entity
     else
-      render json: { errors: ['参数错误'] }, status: :unprocessable_entity
+      render json: { errors: obj }, status: :unprocessable_entity
     end
   end
 

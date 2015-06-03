@@ -43,7 +43,7 @@ Rails.application.routes.draw do
 
       delete  'ideas/:id/vote' => 'ideas#unvote'
       delete  'ideas/:id/star' => 'ideas#unstar'
-      delete  'ideas/:idea_id/tags' => 'ideas#cancel_tags'
+      delete  'ideas/:idea_id/tags' => 'tags#cancel'
 
       post    'markdown/preview' => 'markdown#preview'
 
@@ -68,6 +68,7 @@ Rails.application.routes.draw do
         end
 
         resources :comments, only: [:create, :index]
+        resources :tags, only: [:create]
       end
 
       resources :tags, only: [:create, :index] do

@@ -1,13 +1,23 @@
 class IdeaeggApi::TagsController < IdeaeggApi::ApplicationController
   before_action :authenticate_user_from_token!
+  before_action :find_own_idea, only: [:create, :cancel]
 
   def create
-    @tag = ActsAsTaggableOn::Tag.new tag_params
-    if @tag.save
-      render :create
+    @idea.tag_list.add(params[:tag], parse: true)
+    if @idea.save
+      @tags = @idea.tags
+      render :index
     else
-      render_json_error(@tag)
+      errors = @idea.errors.any? ? @idea : "标签长度错误"
+      render_json_error(errors)
     end
+  end
+
+  def cancel
+    @idea.tag_list.remove(params[:tag], parse: true)
+    @idea.save
+    @tags = @idea.tags
+    render :index
   end
 
   def index
@@ -29,5 +39,9 @@ class IdeaeggApi::TagsController < IdeaeggApi::ApplicationController
 
   def tag_params
     params.permit(:name)
+  end
+
+  def find_own_idea
+    @idea = @user.ideas.find(params[:idea_id])
   end
 end

@@ -56,20 +56,6 @@ class IdeaeggApi::IdeasController < IdeaeggApi::ApplicationController
     render :index
   end
 
-  def tags
-    @idea.tag_list.add(params[:tag], parse: true)
-    @idea.save
-    @tags = ActsAsTaggableOn::Tag.where(name: params[:tag].split(','))
-    render 'ideaegg_api/tags/index'
-  end
-
-  def cancel_tags
-    @idea.tag_list.remove(params[:tag], parse: true)
-    @idea.save
-    @tags = ActsAsTaggableOn::Tag.where(name: params[:tag].split(','))
-    render 'ideaegg_api/tags/index'
-  end
-
   private
 
   def idea_params

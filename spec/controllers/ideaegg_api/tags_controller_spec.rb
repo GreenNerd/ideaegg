@@ -12,32 +12,53 @@ RSpec.describe IdeaeggApi::TagsController, :type => :controller do
   end
 
   describe 'POST create' do
-    let(:valid_attrs) { { name: 'test_name' } }
-    let(:invalid_attrs) { { name: nil } }
+    let(:idea) { create :idea, user_id: user.id }
+    let(:another_idea) { create :idea }
+    let(:valid_attrs) { { tag: 'name1, name2' } }
+    let(:invalid_attrs) { { tag: '标签长度不能超过十个字, 我是五个字' } }
 
     context 'when succeeding' do
-      it 'create a new tag' do
+      it 'add two tags for the idea' do
         expect {
-          post :create, valid_attrs
-        }.to change { ::ActsAsTaggableOn::Tag.count }.by 1
+          post :create, { idea_id: idea.id }.merge!(valid_attrs)
+          idea.reload
+        }.to change { idea.tag_list.count }.by 2
       end
 
-      it 'returns a tag json' do
-        post :create, valid_attrs
-        expect(json_response['name']).to eq 'test_name'
+      it 'returns 404 if idea not belongs to user' do
+        post :create, { idea_id: another_idea }.merge!(valid_attrs)
+        expect(response.status).to eq 404
       end
     end
 
     context 'when failing' do
       it 'returns 422' do
-        post :create, invalid_attrs
+        post :create, { idea_id: idea.id }.merge!(invalid_attrs)
         expect(response.status).to eq 422
       end
+    end
+  end
 
-      it 'returns a error json' do
-        post :create, invalid_attrs
-        expect(json_response['errors']).not_to be_nil
-      end
+  describe 'DELETE cancel' do
+    let(:idea) { create :idea, user_id: user.id }
+    let(:tag_params) { { tag: 'name1, name2' } }
+    let(:another_idea) { create :idea }
+
+    before :each do
+      idea.tag_list.add("name1, name2", parse: true)
+      idea.save
+    end
+
+    it 'cancel two tags for the idea' do
+      expect {
+        delete :cancel, { idea_id: idea.id }.merge!(tag_params)
+        idea.reload
+      }.to change { idea.tag_list.count }.by -2
+    end
+
+    it 'returns 404 if idea not belongs to user' do
+      delete :cancel, { idea_id: another_idea }.merge!(tag_params)
+      expect(response.status).to eq 404
     end
   end
 
