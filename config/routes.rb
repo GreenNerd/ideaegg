@@ -69,7 +69,7 @@ Rails.application.routes.draw do
         get :ideas
 
         collection do
-          post :query
+          get :query
         end
       end
 
