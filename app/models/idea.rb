@@ -39,7 +39,7 @@ class Idea < ActiveRecord::Base
   validates :title, presence: true, length: { maximum: 140 }
   validates :content, presence: true
   validates :cover, presence: true
-
+  validate :check_tags_count
   # Scopes
   default_scope { order(created_at: :desc, id: :desc) }
 
@@ -75,5 +75,9 @@ class Idea < ActiveRecord::Base
 
   def generate_content_html
     self.content_html = MarkdownConverter.convert(content)
+  end
+
+  def check_tags_count
+    errors.add(:base, "标签最多为30个") if tags.count > 30
   end
 end
