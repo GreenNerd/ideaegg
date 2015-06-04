@@ -52,7 +52,7 @@ class User < ActiveRecord::Base
 
   # associations
   has_many :ideas, dependent: :destroy
-  has_many :stars
+  has_many :stars, -> { order created_at: :desc }
   has_many :starred_ideas, through: :stars, source: :starrable, source_type: 'Idea'
   has_many :authentications, dependent: :destroy
 
@@ -72,6 +72,7 @@ class User < ActiveRecord::Base
   # Callbacks
   #
   before_save :autofill_fullname, :downcase_username, :ensure_authentication_token
+  before_save :change_authentication_token_if_change_password
 
   #
   # Class methods
@@ -136,7 +137,7 @@ class User < ActiveRecord::Base
     all_following
   end
 
-  def all_likes
+  def voted_ideas
     get_up_voted(Idea)
   end
 
@@ -146,6 +147,14 @@ class User < ActiveRecord::Base
 
   def starred?(starrable)
     Star.exists?({ :starrable_id => starrable.id, :starrable_type => starrable.class.name, :user_id => self.id })
+  end
+
+  def stars_for_idea
+    stars.where(starrable_type: 'Idea')
+  end
+
+  def votes_for_idea
+    ActsAsVotable::Vote.where(voter: self, votable_type: 'Idea').order(created_at: :desc)
   end
 
   private
@@ -161,6 +170,12 @@ class User < ActiveRecord::Base
       loop do
         token = Devise.friendly_token
         break token unless User.where(authentication_token: token).first
+      end
+    end
+
+    def change_authentication_token_if_change_password
+      if encrypted_password_changed?
+        self.authentication_token = generate_authentication_token
       end
     end
 end

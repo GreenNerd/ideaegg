@@ -3,7 +3,7 @@ class IdeaeggApi::UsersController < IdeaeggApi::ApplicationController
   def create
     @user = User.new(user_params)
     if @user.save
-      render :create, layout: false
+      render :create
     else
       render_json_error(@user)
     end
@@ -12,7 +12,7 @@ class IdeaeggApi::UsersController < IdeaeggApi::ApplicationController
   def sign_up_temporarily
     @user = User.build_with_attributes
     @user.save
-    render :create, layout: false
+    render :create
   end
 
   private

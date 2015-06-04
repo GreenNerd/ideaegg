@@ -39,8 +39,7 @@ class Idea < ActiveRecord::Base
   validates :title, presence: true, length: { maximum: 140 }
   validates :content, presence: true
   validates :cover, presence: true
-  validates :summary, presence: true
-
+  validate :check_tags_count
   # Scopes
   default_scope { order(created_at: :desc, id: :desc) }
 
@@ -51,7 +50,7 @@ class Idea < ActiveRecord::Base
 
   scope :sorted_by_stars, -> { reorder('ideas.stars_count DESC') }
   scope :sorted_by_comments, -> { reorder('ideas.comments_count DESC') }
-  scope :sorted_by_likes, -> { reorder('ideas.cached_votes_up DESC') }
+  scope :sorted_by_votes, -> { reorder('ideas.cached_votes_up DESC') }
 
   scope :all_public, -> { where(public: true) }
   scope :visible_to, ->(user) { where('level <= ?', user.level) }
@@ -76,5 +75,9 @@ class Idea < ActiveRecord::Base
 
   def generate_content_html
     self.content_html = MarkdownConverter.convert(content)
+  end
+
+  def check_tags_count
+    errors.add(:base, "标签最多为30个") if tags.count > 30
   end
 end

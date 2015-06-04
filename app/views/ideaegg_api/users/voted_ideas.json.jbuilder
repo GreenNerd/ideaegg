@@ -1,0 +1,1 @@
+json.array! @ideas, partial: 'ideaegg_api/ideas/idea', as: :idea
