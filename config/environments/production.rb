@@ -1,3 +1,5 @@
+Settings = YAML.load_file("#{Rails.root}/config/settings.yml")[Rails.env]
+
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
 
@@ -77,10 +79,15 @@ Rails.application.configure do
   config.active_record.dump_schema_after_migration = false
 
   # devise configuration
-  config.action_mailer.default_url_options = { :host => 'ideaegg.me' }
+  config.action_mailer.default_url_options = { :host => 'beta.ideaegg.me' }
+  config.action_mailer.delivery_method = :mailgun
+  config.action_mailer.mailgun_settings = {
+        api_key: Settings['mailgun']['api_key'],
+        domain: Settings['mailgun']['domain']
+  }
   # ActionMailer Config
   # Setup for production - deliveries, no errors raised
-  config.action_mailer.perform_deliveries = true
-  config.action_mailer.raise_delivery_errors = true
-  config.action_mailer.default :charset => "utf-8"
+  # config.action_mailer.perform_deliveries = true
+  # config.action_mailer.raise_delivery_errors = true
+  # config.action_mailer.default :charset => "utf-8"
 end

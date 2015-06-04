@@ -1,0 +1,5 @@
+"zh-CN":
+  devise:
+    mailer:
+      reset_password_instructions:
+        subject: '重置密码信息'
