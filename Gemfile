@@ -128,3 +128,5 @@ group :production do
 end
 
 gem 'forgery'
+
+gem 'mailgun_rails'
