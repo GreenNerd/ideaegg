@@ -38,7 +38,7 @@ class Idea < ActiveRecord::Base
   validates :user_id, presence: true
   validates :title, presence: true, length: { maximum: 140 }
   validates :content, presence: true
-  validates :cover, presence: true
+  validates :summary, presence: true
   validate :check_tags_count
   # Scopes
   default_scope { order(created_at: :desc, id: :desc) }
