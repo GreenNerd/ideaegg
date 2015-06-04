@@ -3,6 +3,6 @@ class IdeaeggApi::MarkdownController < IdeaeggApi::ApplicationController
 
   def preview
     content = MarkdownConverter.convert(params[:content])
-    render json: { content: content }, layout: false
+    render json: { content: content }
   end
 end

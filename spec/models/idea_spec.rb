@@ -29,5 +29,14 @@ describe Idea do
     it { should validate_presence_of :content }
 
     it { should ensure_length_of(:title).is_at_most(140) }
+
+    it 'tags count max is 30' do
+      idea = create :idea
+      31.times do |x|
+        idea.tag_list.add(x.to_s)
+      end
+      idea.save
+      expect(idea.valid?).to be_falsey
+    end
   end
 end
