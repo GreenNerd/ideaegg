@@ -3,7 +3,6 @@ class IdeaeggApi::IdeasController < IdeaeggApi::ApplicationController
 
   before_action :authenticate_user_from_token!
   before_action :find_idea, only: [:show, :vote, :unvote, :star, :unstar]
-  before_action :find_own_idea, only: [:tags, :cancel_tags]
 
   def create
     @idea = @user.ideas.build(idea_params)
@@ -68,9 +67,5 @@ class IdeaeggApi::IdeasController < IdeaeggApi::ApplicationController
 
   def find_idea
     @idea = Idea.find(params[:id])
-  end
-
-  def find_own_idea
-    @idea = @user.ideas.find(params[:idea_id])
   end
 end
