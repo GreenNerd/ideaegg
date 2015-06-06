@@ -34,7 +34,7 @@ class IdeaeggApi::ApplicationController < ApplicationController
   end
 
   def add_pagination_headers(paginated, per_page)
-    request_url = request.url.split('?').first
+    request_url = request.env['REQUEST_URI'].split('?').first
 
     links = []
     links << %(<#{request_url}?page=#{paginated.current_page - 1}&per_page=#{per_page}>; rel="prev") unless paginated.first_page?
