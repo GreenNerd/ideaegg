@@ -7,7 +7,7 @@ class IdeaeggApi::SessionsController < IdeaeggApi::ApplicationController
     if @user && @user.valid_password?(params[:password])
       render :create
     else
-      render json: { errors: ["帐号或者密码错误"] }, status: 401
+      render_json_error('帐号或者密码错误', 401)
     end
   end
 
@@ -21,8 +21,7 @@ class IdeaeggApi::SessionsController < IdeaeggApi::ApplicationController
       if @user.save
         render :create
       else
-        errors = @user.authentications.first.errors.any? ? error_messages(@user.authentications.first) : error_messages(@user)
-        render json: { errors: errors }, status: 422
+        render_json_error(@user)
       end
     end
   end
@@ -30,6 +29,6 @@ class IdeaeggApi::SessionsController < IdeaeggApi::ApplicationController
   private
 
   def check_provider
-    render json: { errors: "授权类型不支持" }, status: 422 unless params[:provider].in? Authentication::PROVIDER_TYPE
+    render_json_error('授权类型不支持') unless params[:provider].in? Authentication::PROVIDER_TYPE
   end
 end

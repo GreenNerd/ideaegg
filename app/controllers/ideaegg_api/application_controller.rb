@@ -2,16 +2,16 @@ class IdeaeggApi::ApplicationController < ApplicationController
   protect_from_forgery with: :null_session
 
   rescue_from ActiveRecord::RecordNotFound do
-    render json: { errors: "not found" }, status: 404
+    render_json_error("not found", 404)
   end
 
   private
 
-  def render_json_error(obj = nil)
+  def render_json_error(obj = nil, status = 422)
     if obj.respond_to?(:errors)
-      render json: { errors: error_messages(obj) }, status: :unprocessable_entity
+      render json: { errors: error_messages(obj) }, status: status
     else
-      render json: { errors: obj }, status: :unprocessable_entity
+      render json: { errors: obj }, status: status
     end
   end
 
