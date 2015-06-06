@@ -30,12 +30,12 @@ RSpec.describe IdeaeggApi::UsersController, :type => :controller do
   describe '#sign_up_temporarily' do
     it 'creates a new user' do
       expect {
-        get :sign_up_temporarily
+        post :sign_up_temporarily
       }.to change { User.count }.by 1
     end
 
     it 'returns a json' do
-      get :sign_up_temporarily
+      post :sign_up_temporarily
       expect(json_response['private_token']).not_to be_nil
     end
   end

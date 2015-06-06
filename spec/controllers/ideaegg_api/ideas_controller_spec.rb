@@ -13,7 +13,7 @@ RSpec.describe IdeaeggApi::IdeasController, :type => :controller do
 
   describe '#create' do
     let(:valid_attrs) { attributes_for :idea }
-    let(:invalid_attrs) { attributes_for :idea, cover: nil }
+    let(:invalid_attrs) { attributes_for :idea, title: nil }
     let(:token) { { private_token: user.private_token } }
 
     context 'succeeding' do

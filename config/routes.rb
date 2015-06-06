@@ -38,7 +38,7 @@ Rails.application.routes.draw do
     scope :v2 do
       post    'sign_up' => 'users#create'
       post    'sign_in' => 'sessions#create'
-      get     'sign_up_temporarily' => 'users#sign_up_temporarily'
+      post    'sign_up_temporarily' => 'users#sign_up_temporarily'
       post    'sign_in_with/:provider' => 'sessions#create_by_provider'
 
       delete  'ideas/:id/vote' => 'ideas#unvote'
