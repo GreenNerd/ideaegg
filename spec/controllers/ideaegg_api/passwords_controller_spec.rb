@@ -6,6 +6,7 @@ RSpec.describe IdeaeggApi::PasswordsController, :type => :controller do
 
   before do
     @request.env["devise.mapping"] = Devise.mappings[:user]
+    request.env["HTTP_ACCEPT"] = 'application/json'
   end
 
   describe '#create' do
@@ -13,12 +14,12 @@ RSpec.describe IdeaeggApi::PasswordsController, :type => :controller do
     let(:email) { { email: user.email } }
 
     it 'succeeds if email exists' do
-      post :create, { user: email, format: :json }
-      expect(json_response['errors']).to be_nil
+      post :create, email
+      expect(response.status).to eq 204
     end
 
     it 'fails if email exists' do
-      post :create, { user: { email: 'wrong_email@qq.com' }, format: :json }
+      post :create, { email: 'wrong_email@qq.com' }
       expect(json_response['errors']).not_to be_nil
     end
 
