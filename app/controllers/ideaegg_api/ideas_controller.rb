@@ -6,10 +6,12 @@ class IdeaeggApi::IdeasController < IdeaeggApi::ApplicationController
 
   def create
     @idea = @user.ideas.build(idea_params)
+    @idea.tag_list.add(params[:tag], parse: true)
     if @idea.save
       render status: 201
     else
-      render_json_error(@idea)
+      error = @idea.errors.any? ? @idea : "标签长度错误或者标签数过多"
+      render_json_error(error)
     end
   end
 
