@@ -14,3 +14,6 @@ zh-CN:
         username: 用户名
         password: 密码
         password_confirmation: 确认密码
+
+      user/authentications:
+        uid: uid
