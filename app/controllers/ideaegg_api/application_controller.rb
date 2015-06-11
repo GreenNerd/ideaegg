@@ -2,16 +2,16 @@ class IdeaeggApi::ApplicationController < ApplicationController
   protect_from_forgery with: :null_session
 
   rescue_from ActiveRecord::RecordNotFound do
-    render json: { errors: "not found" }, status: 404
+    render_json_error("not found", 404)
   end
 
   private
 
-  def render_json_error(obj = nil)
+  def render_json_error(obj = nil, status = 422)
     if obj.respond_to?(:errors)
-      render json: { errors: error_messages(obj) }, status: :unprocessable_entity
+      render json: { errors: error_messages(obj) }, status: status
     else
-      render json: { errors: obj }, status: :unprocessable_entity
+      render json: { errors: obj }, status: status
     end
   end
 
@@ -34,7 +34,7 @@ class IdeaeggApi::ApplicationController < ApplicationController
   end
 
   def add_pagination_headers(paginated, per_page)
-    request_url = request.url.split('?').first
+    request_url = request.original_url.split('?').first
 
     links = []
     links << %(<#{request_url}?page=#{paginated.current_page - 1}&per_page=#{per_page}>; rel="prev") unless paginated.first_page?

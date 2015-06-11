@@ -97,15 +97,14 @@ group :development, :test do
   gem 'database_cleaner', '>= 1.3.0', :require => false
   # Use sqlite3 as the database for Active Record
   gem 'sqlite3'
+
+  gem 'pry'
+  gem 'pry-byebug', '2.0.0'
 end
 
 group :development do
   gem 'annotate'
   gem 'pry-rails'
-
-  gem 'pry'
-  gem 'pry-byebug', '2.0.0'
-
   # Use Capistrano for deployment
   gem 'capistrano'
   gem 'capistrano-rails'

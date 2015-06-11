@@ -20,7 +20,7 @@ class IdeaeggApi::UserController < IdeaeggApi::ApplicationController
         render_json_error(@user)
       end
     else
-      render json: { errors: '密码错误。' }, status: 422
+      render_json_error("密码错误！")
     end
   end
 

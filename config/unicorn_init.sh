@@ -8,6 +8,8 @@ TIMEOUT=${TIMEOUT-60}
 APP_ROOT=/var/www/ideaegg/current
 unicorn_pidfile="$APP_ROOT/tmp/pids/unicorn.pid"
 unicorn_config="$APP_ROOT/config/unicorn.rb"
+export PID=$APP_ROOT/tmp/pids/unicorn.pid
+export OLD_PID="$PID.oldbin"
 RAILS_ENV="production"
 CMD="bundle exec unicorn_rails -D -c $unicorn_config -E $RAILS_ENV"
 AS_USER=deploy
@@ -40,10 +42,11 @@ stop()
   kill -QUIT $unicorn_pid
 }
 
-reload()
+restart()
 {
   get_unicorn_pid
   kill -USR2 $unicorn_pid
+  kill -QUIT `cat $OLD_PID`
 }
 
 case "$1" in
@@ -53,11 +56,11 @@ case "$1" in
   stop)
     stop
     ;;
-  reload)
-    reload
+  restart)
+    restart
     ;;
   *)
-    echo "Usage: RAILS_ENV=your_env $0 {start|stop|reload}"
+    echo "Usage: RAILS_ENV=your_env $0 {start|stop|restart}"
     ;;
 esac
 
