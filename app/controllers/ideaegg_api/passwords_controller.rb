@@ -7,13 +7,14 @@ class IdeaeggApi::PasswordsController < Devise::PasswordsController
 
   # POST /resource/password
   def create
+    resource_params = { email: params[:email] } if request.format.json?
     self.resource = resource_class.send_reset_password_instructions(resource_params)
     yield resource if block_given?
 
     respond_to do |format|
       if successfully_sent?(resource)
         format.html { respond_with({}, location: after_sending_reset_password_instructions_path_for(resource_name)) }
-        format.json { render json: { success: true } }
+        format.json { head :no_content }
       else
         format.html { respond_with(resource) }
         format.json { render json: { errors: resource.errors.full_messages.join('，') }, status: 422 }

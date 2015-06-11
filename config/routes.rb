@@ -38,7 +38,7 @@ Rails.application.routes.draw do
     scope :v2 do
       post    'sign_up' => 'users#create'
       post    'sign_in' => 'sessions#create'
-      get     'sign_up_temporarily' => 'users#sign_up_temporarily'
+      post    'sign_up_temporarily' => 'users#sign_up_temporarily'
       post    'sign_in_with/:provider' => 'sessions#create_by_provider'
 
       delete  'ideas/:id/vote' => 'ideas#unvote'
@@ -60,7 +60,7 @@ Rails.application.routes.draw do
       end
 
       resources :ideas, only: [:create, :show, :index] do
-        post :tags
+        resources :tags, only: [:create]
 
         member do
           put :vote
@@ -71,7 +71,7 @@ Rails.application.routes.draw do
         resources :tags, only: [:create]
       end
 
-      resources :tags, only: [:create, :index] do
+      resources :tags, only: [:index] do
         collection do
           get :query
         end

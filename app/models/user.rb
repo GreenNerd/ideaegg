@@ -54,7 +54,7 @@ class User < ActiveRecord::Base
   has_many :ideas, dependent: :destroy
   has_many :stars, -> { order created_at: :desc }
   has_many :starred_ideas, through: :stars, source: :starrable, source_type: 'Idea'
-  has_many :authentications, dependent: :destroy
+  has_many :authentications, dependent: :destroy, autosave: true
 
   # validations
   validates :username,

@@ -3,14 +3,15 @@ class IdeaeggApi::IdeasController < IdeaeggApi::ApplicationController
 
   before_action :authenticate_user_from_token!
   before_action :find_idea, only: [:show, :vote, :unvote, :star, :unstar]
-  before_action :find_own_idea, only: [:tags, :cancel_tags]
 
   def create
     @idea = @user.ideas.build(idea_params)
+    @idea.tag_list.add(params[:tag], parse: true)
     if @idea.save
       render status: 201
     else
-      render_json_error(@idea)
+      error = @idea.errors.any? ? @idea : "标签长度错误或者标签数过多"
+      render_json_error(error)
     end
   end
 
@@ -68,9 +69,5 @@ class IdeaeggApi::IdeasController < IdeaeggApi::ApplicationController
 
   def find_idea
     @idea = Idea.find(params[:id])
-  end
-
-  def find_own_idea
-    @idea = @user.ideas.find(params[:idea_id])
   end
 end
