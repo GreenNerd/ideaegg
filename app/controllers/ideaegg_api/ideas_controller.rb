@@ -2,7 +2,8 @@ class IdeaeggApi::IdeasController < IdeaeggApi::ApplicationController
   include IdeasHelper
 
   before_action :authenticate_user_from_token!
-  before_action :find_idea, only: [:show, :vote, :unvote, :star, :unstar]
+  before_action :find_idea, only: [:show, :vote, :unvote, :star, :unstar, :update]
+  before_action :correct_user, only: [:update]
 
   def create
     @idea = @user.ideas.build(idea_params)
@@ -23,6 +24,14 @@ class IdeaeggApi::IdeasController < IdeaeggApi::ApplicationController
       @ideas = paginate Idea.tagged_with(params[:tag].split(','), match_all: true)
     else
       @ideas = paginate Idea.order_created_desc
+    end
+  end
+
+  def update
+    if @idea.update idea_params
+      render :show
+    else
+      render_json_error(@idea)
     end
   end
 
@@ -69,5 +78,9 @@ class IdeaeggApi::IdeasController < IdeaeggApi::ApplicationController
 
   def find_idea
     @idea = Idea.find(params[:id])
+  end
+
+  def correct_user
+    render_json_error('只有作者才能修改idea', 403) if @user != @idea.author
   end
 end
