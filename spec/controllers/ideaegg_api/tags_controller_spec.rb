@@ -51,13 +51,13 @@ RSpec.describe IdeaeggApi::TagsController, :type => :controller do
 
     it 'cancel two tags for the idea' do
       expect {
-        delete :cancel, { idea_id: idea.id }.merge!(tag_params)
+        post :cancel, { idea_id: idea.id }.merge!(tag_params)
         idea.reload
       }.to change { idea.tag_list.count }.by -2
     end
 
     it 'returns 404 if idea not belongs to user' do
-      delete :cancel, { idea_id: another_idea }.merge!(tag_params)
+      post :cancel, { idea_id: another_idea }.merge!(tag_params)
       expect(response.status).to eq 404
     end
   end
