@@ -106,6 +106,35 @@ RSpec.describe IdeaeggApi::IdeasController, :type => :controller do
     end
   end
 
+  describe 'PUT update' do
+    let!(:idea) { create :idea, author: user }
+    let!(:another_idea) { create :idea }
+    let(:valid_attrs) { attributes_for :idea, title: 'another_title' }
+    let(:invalid_attrs) { attributes_for :idea, title: nil }
+
+    context 'when succeeding' do
+      it 'updates the idea' do
+        put :update, valid_attrs.merge!({ id: idea.id })
+        idea.reload
+        expect(idea.title).to eq 'another_title'
+      end
+    end
+
+    context 'when failing with invalid_attrs' do
+      it 'returns 422' do
+        put :update, invalid_attrs.merge!({ id: idea.id })
+        expect(response.status).to eq 422
+      end
+    end
+
+    context 'when failing that modifys the idea not belong to own' do
+      it 'returns 403' do
+        put :update, valid_attrs.merge!({ id: another_idea.id })
+        expect(response.status).to eq 403
+      end
+    end
+  end
+
   describe 'PUT vote' do
     let!(:idea) { create :idea }
 
