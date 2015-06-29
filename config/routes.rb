@@ -59,7 +59,7 @@ Rails.application.routes.draw do
         end
       end
 
-      resources :ideas, only: [:create, :show, :index] do
+      resources :ideas, only: [:create, :show, :index, :update] do
         resources :tags, only: [:create]
 
         member do
