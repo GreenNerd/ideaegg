@@ -20,7 +20,7 @@ class IdeaeggApi::ApplicationController < ApplicationController
   end
 
   def authenticate_user_from_token!
-    private_token = params[:private_token] || request.env['PRIVATE-TOKEN']
+    private_token = params[:private_token] || request.headers['PRIVATE-TOKEN']
     @user = User.find_by(authentication_token: private_token)
     render json: { message: "401 Unauthorized" }, status: 401 unless @user
   end
