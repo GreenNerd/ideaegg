@@ -7,8 +7,8 @@ RSpec.describe IdeaeggApi::UserController, :type => :controller do
   let!(:user) { create :user }
 
   before :each do
-    request.env["PRIVATE-TOKEN"] = user.private_token
-    request.env["HTTP_ACCEPT"] = 'application/json'
+    request.headers["PRIVATE-TOKEN"] = user.private_token
+    request.headers["HTTP_ACCEPT"] = 'application/json'
   end
 
   describe 'GET show' do
