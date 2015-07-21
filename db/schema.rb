@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150603041526) do
+ActiveRecord::Schema.define(version: 20150721063906) do
 
   create_table "authentications", force: true do |t|
     t.integer  "user_id"
@@ -73,6 +73,12 @@ ActiveRecord::Schema.define(version: 20150603041526) do
   add_index "ideas", ["cached_votes_up"], name: "index_ideas_on_cached_votes_up"
   add_index "ideas", ["deleted_at"], name: "index_ideas_on_deleted_at"
   add_index "ideas", ["user_id"], name: "index_ideas_on_user_id"
+
+  create_table "products", force: true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "stars", force: true do |t|
     t.integer  "starrable_id"
