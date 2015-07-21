@@ -8,8 +8,8 @@ RSpec.describe IdeaeggApi::CommentsController, :type => :controller do
   let!(:idea) { create :idea }
 
   before :each do
-    request.env["HTTP_ACCEPT"] = 'application/json'
-    request.env["PRIVATE-TOKEN"] = user.private_token
+    request.headers["HTTP_ACCEPT"] = 'application/json'
+    request.headers["PRIVATE-TOKEN"] = user.private_token
   end
 
   describe 'POST create' do

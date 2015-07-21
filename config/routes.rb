@@ -83,6 +83,10 @@ Rails.application.routes.draw do
         end
       end
 
+      resources :products, only: [] do
+        resources :feedbacks, only: [:create]
+      end
+
       devise_scope :user do
         post 'reset_password' => 'passwords#create'
       end
