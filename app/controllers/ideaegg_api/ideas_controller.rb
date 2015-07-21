@@ -56,12 +56,12 @@ class IdeaeggApi::IdeasController < IdeaeggApi::ApplicationController
   end
 
   def voted
-    @ideas = paginate @user.voted_ideas.reorder("'votes'.'created_at' DESC")
+    @ideas = paginate @user.voted_ideas.reorder("votes.created_at DESC")
     render :index
   end
 
   def starred
-    @ideas = paginate @user.starred_ideas.reorder("'stars'.'created_at' DESC")
+    @ideas = paginate @user.starred_ideas.reorder("stars.created_at DESC")
     render :index
   end
 
