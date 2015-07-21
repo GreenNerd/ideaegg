@@ -28,7 +28,7 @@ class IdeaeggApi::UserController < IdeaeggApi::ApplicationController
   private
 
   def update_user_params
-    params.permit(:fullname, :avatar, :phone_number)
+    params.permit(:email, :fullname, :avatar, :phone_number)
   end
 
   def update_password_params
