@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150721063906) do
+ActiveRecord::Schema.define(version: 20150721065149) do
 
   create_table "authentications", force: true do |t|
     t.integer  "user_id"
@@ -38,6 +38,17 @@ ActiveRecord::Schema.define(version: 20150721063906) do
 
   add_index "comments", ["commentable_id", "commentable_type"], name: "index_comments_on_commentable_id_and_commentable_type"
   add_index "comments", ["user_id"], name: "index_comments_on_user_id"
+
+  create_table "feedbacks", force: true do |t|
+    t.text     "body"
+    t.integer  "stars"
+    t.string   "images",     default: "t"
+    t.string   "contact"
+    t.boolean  "anonymous",  default: false
+    t.integer  "product_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "follows", force: true do |t|
     t.integer  "followable_id",                   null: false
