@@ -7,8 +7,8 @@ RSpec.describe IdeaeggApi::IdeasController, :type => :controller do
   let!(:user) { create :user }
 
   before :each do
-    request.env["HTTP_ACCEPT"] = 'application/json'
-    request.env["PRIVATE-TOKEN"] = user.private_token
+    request.headers["HTTP_ACCEPT"] = 'application/json'
+    request.headers["PRIVATE-TOKEN"] = user.private_token
   end
 
   describe '#create' do
@@ -18,7 +18,7 @@ RSpec.describe IdeaeggApi::IdeasController, :type => :controller do
 
     context 'succeeding' do
       it 'creates a idea with token in params' do
-        request.env["PRIVATE-TOKEN"] = nil
+        request.headers["PRIVATE-TOKEN"] = nil
         expect {
           post :create, valid_attrs.merge!(token)
         }.to change { Idea.count }.by 1
@@ -50,7 +50,7 @@ RSpec.describe IdeaeggApi::IdeasController, :type => :controller do
 
     context 'authentication failing' do
       it 'returns 401 code' do
-        request.env["PRIVATE-TOKEN"] = nil
+        request.headers["PRIVATE-TOKEN"] = nil
         post :create, valid_attrs
         expect(response.status).to eq 401
       end

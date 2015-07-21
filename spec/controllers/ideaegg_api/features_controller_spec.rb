@@ -7,8 +7,8 @@ RSpec.describe IdeaeggApi::FeaturesController, :type => :controller do
   let!(:user) { create :user }
 
   before :each do
-    request.env["HTTP_ACCEPT"] = 'application/json'
-    request.env["PRIVATE-TOKEN"] = user.private_token
+    request.headers["HTTP_ACCEPT"] = 'application/json'
+    request.headers["PRIVATE-TOKEN"] = user.private_token
   end
 
   describe 'GET ideas' do
@@ -16,7 +16,6 @@ RSpec.describe IdeaeggApi::FeaturesController, :type => :controller do
     let!(:another_idea) { create :idea }
 
     before :each do
-      request.env["PRIVATE-TOKEN"] = user.private_token
       user.likes idea
     end
 

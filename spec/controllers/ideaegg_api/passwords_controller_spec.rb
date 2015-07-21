@@ -5,8 +5,8 @@ RSpec.describe IdeaeggApi::PasswordsController, :type => :controller do
   render_views
 
   before do
-    @request.env["devise.mapping"] = Devise.mappings[:user]
-    request.env["HTTP_ACCEPT"] = 'application/json'
+    @request.headers["devise.mapping"] = Devise.mappings[:user]
+    request.headers["HTTP_ACCEPT"] = 'application/json'
   end
 
   describe '#create' do

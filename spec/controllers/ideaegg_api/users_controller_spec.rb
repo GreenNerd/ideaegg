@@ -5,7 +5,7 @@ RSpec.describe IdeaeggApi::UsersController, :type => :controller do
   render_views
 
   before :each do
-    request.env["HTTP_ACCEPT"] = 'application/json'
+    request.headers["HTTP_ACCEPT"] = 'application/json'
   end
 
   describe '#create' do
