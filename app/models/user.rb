@@ -107,13 +107,15 @@ class User < ActiveRecord::Base
     def build_with_authentication options
       user = User.build_with_attributes options[:username], options[:email]
       user.avatar = options[:avatar]
+      user.fullname = options[:fullname]
+      user.phone_number = options[:phone_number]
       user.authentications.build(uid: options[:uid], provider: options[:provider])
       user
     end
 
     def generate_one_username
       loop do
-        username = SecureRandom.hex(4)
+        username = "ideaegg_#{SecureRandom.hex(4)}"
         break username unless User.where(username: username).first
       end
     end
