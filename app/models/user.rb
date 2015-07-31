@@ -106,6 +106,7 @@ class User < ActiveRecord::Base
 
     def build_with_authentication options
       user = User.build_with_attributes options[:username], options[:email]
+      user.avatar = options[:avatar]
       user.authentications.build(uid: options[:uid], provider: options[:provider])
       user
     end
