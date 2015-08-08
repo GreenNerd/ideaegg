@@ -36,7 +36,7 @@ module ActsAsStarrable
 
     def unstarred_by!(user)
       if self.starred_by?(user)
-        self.stars.find_by_user_id(user.id).delete
+        self.stars.find_by(user_id: user.id).destroy
       end
     end
   end
