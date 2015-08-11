@@ -39,4 +39,12 @@ describe Idea do
       expect(idea.valid?).to be_falsey
     end
   end
+
+  describe 'saving' do
+    let(:idea) { create :idea, content: '**World**', summary: nil }
+
+    it 'set default summary' do
+      expect(idea.summary.to_s).to eq "World\n"
+    end
+  end
 end
