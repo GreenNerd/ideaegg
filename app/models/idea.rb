@@ -38,7 +38,6 @@ class Idea < ActiveRecord::Base
   validates :user_id, presence: true
   validates :title, presence: true, length: { maximum: 140 }
   validates :content, presence: true
-  validates :summary, presence: true
   validate :check_tags_count
   # Scopes
   default_scope { order(created_at: :desc, id: :desc) }
@@ -55,7 +54,7 @@ class Idea < ActiveRecord::Base
   scope :all_public, -> { where(public: true) }
   scope :visible_to, ->(user) { where('level <= ?', user.level) }
 
-  before_save :generate_content_html
+  before_save :generate_content_html_and_default_summary
 
   # class << self
   #   def visible_to_current_user
@@ -73,8 +72,10 @@ class Idea < ActiveRecord::Base
 
   private
 
-  def generate_content_html
-    self.content_html = MarkdownConverter.convert(content)
+  def generate_content_html_and_default_summary
+    content_html = MarkdownConverter.convert(content)
+    self.content_html = content_html
+    self.summary = content_html.gsub(/<.*?>/, '').truncate(100, separator: /，|。|,|\./, omission: '') unless self.summary?
   end
 
   def check_tags_count
