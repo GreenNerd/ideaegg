@@ -5,7 +5,7 @@ class IdeaeggApi::SessionsController < IdeaeggApi::ApplicationController
     @user = User.find_for_database_authentication(login: params[:login])
 
     if @user && @user.valid_password?(params[:password])
-      render :create
+      render 'ideaegg_api/user/show'
     else
       render_json_error('帐号或者密码错误', 401)
     end
@@ -15,11 +15,11 @@ class IdeaeggApi::SessionsController < IdeaeggApi::ApplicationController
     authentication = Authentication.find_by(provider: params[:provider], uid: params[:uid])
     if authentication
       @user = authentication.user
-      render :create
+      render 'ideaegg_api/user/show'
     else
       @user = User.build_with_authentication params
       if @user.save
-        render :create
+        render 'ideaegg_api/user/show'
       else
         render_json_error(@user)
       end
